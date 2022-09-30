@@ -1,0 +1,14 @@
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\bin\Debug\net6.0\Quiz.Common.deps.json
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\bin\Debug\net6.0\Quiz.Common.runtimeconfig.json
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\bin\Debug\net6.0\Quiz.Common.dll
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\bin\Debug\net6.0\Quiz.Common.pdb
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.csproj.AssemblyReference.cache
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.AssemblyInfoInputs.cache
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.AssemblyInfo.cs
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.csproj.CoreCompileInputs.cache
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.dll
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\refint\Quiz.Common.dll
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.pdb
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\Quiz.Common.genruntimeconfig.cache
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Common\obj\Debug\net6.0\ref\Quiz.Common.dll
