@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Quiz.Models.DTOs;
 using QuizApi;
 using QuizApp.Model.DTOs;
 using QuizApp.Model.Models;
@@ -23,9 +24,10 @@ namespace QuizApp.Data.Repository.User
            _configuration = configuration;
         }
 
-        public async Task<Users?> CreateUser(UserDto userDto) 
+        public async Task<ApiResponse<Users>?> CreateUser(UserDto userDto) 
         {
-            Users users = new Users();
+            var apiResponse = new ApiResponse<Users>();
+            var users = new Users();
             users.Id = GenerateGuid(userDto.Email, userDto.Password);
             CreatePasswordHash(userDto.Password, out byte[] passwordhash, out byte[] passwordSalt);
             users.PasswordHash = passwordhash;
@@ -33,8 +35,10 @@ namespace QuizApp.Data.Repository.User
             users.Role = userDto.Role;
             users.Email = userDto.Email;
             _context.Users.Add(users);
-            var response = _context.SaveChanges();
-            return response > 0 ? users : null;
+            _context.SaveChanges();
+            apiResponse.Content = users;
+            return apiResponse;
+            //return response > 0 ? users : null;
         }
         private void CreatePasswordHash(string password, out byte[] passwordhash, out byte[] passwordSalt)
         {
@@ -65,11 +69,13 @@ namespace QuizApp.Data.Repository.User
             _context.Update(user);
             _context.SaveChanges();
         }
-        public async Task<Users> GenerateTokenThroughVerification(string refreshToken) 
+        public async Task<ApiResponse<Users>> GenerateTokenThroughVerification(string refreshToken) 
         {
-            Users users = new Users();
+            var users = new Users();
+            var apiResponse = new ApiResponse<Users>();
             users = await _context.Users.Where(x => x.RefreshToken == refreshToken).FirstOrDefaultAsync();
-            return users;
+            apiResponse.Content = users;    
+            return apiResponse;
         }
         private bool VerifyPasswordHash(string password, byte[] passwordhash, byte[] passwordSalt)
         {

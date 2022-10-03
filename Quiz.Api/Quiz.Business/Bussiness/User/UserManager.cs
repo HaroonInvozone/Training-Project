@@ -1,11 +1,13 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Quiz.Models.DTOs;
 using QuizApi;
 using QuizApp.Data.Repository.User;
 using QuizApp.Model.DTOs;
 using QuizApp.Model.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
@@ -15,24 +17,37 @@ namespace QuizApp.Business.Bussiness.User
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
-        private const string timeOut = "Redirect to login please!";
+        private const string timeOut = "Logout Please";
         public UserManager(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _configuration = configuration;
         }
 
-        public async Task<Users> CreateUser(UserDto user) 
+        public async Task<ApiResponse<Users>> CreateUser(UserDto user)
         {
             var result = await _userRepository.CreateUser(user);
             return result;
         }
-        public async Task<Tuple<string , string>> Login(UserDto userDto) 
+        public async Task<ApiResponse<AuthResponse>> Login(UserDto userDto)
         {
-            var token = CreateToken(userDto);
-            RefreshToken refreshtoken = GenerateRefreshToken();
-            _userRepository.SetRefreshToken(refreshtoken, userDto);
-            return Tuple.Create(token, refreshtoken.Token);
+            try
+            {
+                var apiResponse = new ApiResponse<AuthResponse>();
+                var authResponse = new AuthResponse();
+                var token = CreateToken(userDto);
+                var refreshtoken = GenerateRefreshToken();
+                _userRepository.SetRefreshToken(refreshtoken, userDto);
+                authResponse.AccessToken = token;
+                authResponse.RefreshToken = refreshtoken.Token;
+                apiResponse.Content = authResponse;
+                //return Tuple.Create(token, refreshtoken.Token);
+                return apiResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public string CreateToken(UserDto userDto)
         {
@@ -51,7 +66,7 @@ namespace QuizApp.Business.Bussiness.User
 
                 var token = new JwtSecurityToken(
                     claims: claims,
-                    expires: DateTime.Now.AddDays(1),
+                    expires: DateTime.Now.AddSeconds(20),
                     signingCredentials: creds);
 
                 var jwt = new JwtSecurityTokenHandler().WriteToken(token);
@@ -74,22 +89,26 @@ namespace QuizApp.Business.Bussiness.User
 
             return refreshToken;
         }
-        public async Task<string> GenerateTokenThroughVerification(string refreshToken) 
+        public async Task<ApiResponse<AuthResponse>> GenerateTokenThroughVerification(string refreshToken)
         {
-            UserDto userDto = new UserDto();
-            string result;
+            var userDto = new UserDto();
+            var authResponse = new AuthResponse();
+            var apiResponcse = new ApiResponse<AuthResponse>();
+            //string result = string.Empty;
             var userData = await _userRepository.GenerateTokenThroughVerification(refreshToken);
-            userDto.Email = userData.Email;
-            if (userData.TokenExpires < DateTime.Now)
+            userDto.Email = userData.Content.Email;
+            if (userData.Content.TokenExpires > DateTime.Now)
             {
-                result = CreateToken(userDto);
+                authResponse.AccessToken = CreateToken(userDto);
+                apiResponcse.Content = authResponse;
             }
-            else 
+            else
             {
-                result = timeOut;
+                apiResponcse.Message = timeOut;
+                apiResponcse.Content = authResponse;
             }
-            return result;
-            
+            return apiResponcse;
+
         }
     }
 }
