@@ -26,8 +26,15 @@ namespace QuizApp.Business.Bussiness.User
 
         public async Task<ApiResponse<Users>> CreateUser(UserDto user)
         {
-            var result = await _userRepository.CreateUser(user);
-            return result;
+            try 
+            {
+                var result = await _userRepository.CreateUser(user);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<ApiResponse<AuthResponse>> Login(UserDto userDto)
         {
@@ -51,14 +58,15 @@ namespace QuizApp.Business.Bussiness.User
         }
         public string CreateToken(UserDto userDto)
         {
-            List<Claim> claims = new List<Claim>
-            {
-                //Create a logic to get role
-                new Claim(ClaimTypes.Email, userDto.Email),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
+            
             try
             {
+                List<Claim> claims = new List<Claim>
+                {
+                    //Create a logic to get role
+                    new Claim(ClaimTypes.Email, userDto.Email),
+                    new Claim(ClaimTypes.Role, "Admin")
+                };
                 var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                     _configuration.GetSection("AppSettings:Token").Value));
 
@@ -80,34 +88,48 @@ namespace QuizApp.Business.Bussiness.User
         }
         public RefreshToken GenerateRefreshToken()
         {
-            var refreshToken = new RefreshToken
+            try 
             {
-                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddDays(2),
-                Created = DateTime.Now
-            };
+                var refreshToken = new RefreshToken
+                {
+                    Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                    Expires = DateTime.Now.AddDays(2),
+                    Created = DateTime.Now
+                };
 
-            return refreshToken;
+                return refreshToken;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<ApiResponse<AuthResponse>> GenerateTokenThroughVerification(string refreshToken)
         {
-            var userDto = new UserDto();
-            var authResponse = new AuthResponse();
-            var apiResponcse = new ApiResponse<AuthResponse>();
-            //string result = string.Empty;
-            var userData = await _userRepository.GenerateTokenThroughVerification(refreshToken);
-            userDto.Email = userData.Content.Email;
-            if (userData.Content.TokenExpires > DateTime.Now)
+            try 
             {
-                authResponse.AccessToken = CreateToken(userDto);
-                apiResponcse.Content = authResponse;
+                var userDto = new UserDto();
+                var authResponse = new AuthResponse();
+                var apiResponcse = new ApiResponse<AuthResponse>();
+                var userData = await _userRepository.GenerateTokenThroughVerification(refreshToken);
+                userDto.Email = userData.Content.Email;
+                if (userData.Content.TokenExpires > DateTime.Now)
+                {
+                    authResponse.AccessToken = CreateToken(userDto);
+                    apiResponcse.Content = authResponse;
+                }
+                else
+                {
+                    apiResponcse.Message = timeOut;
+                    apiResponcse.Content = authResponse;
+                }
+                return apiResponcse;
             }
-            else
+            catch (Exception ex) 
             {
-                apiResponcse.Message = timeOut;
-                apiResponcse.Content = authResponse;
+                throw ex;
             }
-            return apiResponcse;
+            
 
         }
     }

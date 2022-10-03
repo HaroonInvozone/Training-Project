@@ -52,25 +52,33 @@ namespace QuizApp.Api.Controllers
         [HttpPost, Route("Login")]
         public async Task<ActionResult<ApiResponse<AuthResponse>>> Login(UserDto user) 
         {
-            var result = await _usermanager.Login(user);
-            if (result.Content is not null)
+            try 
             {
-                var apiResponse = new ApiResponse<AuthResponse>()
+                var result = await _usermanager.Login(user);
+                if (result.Content is not null)
                 {
-                    Message = "Success",
-                    Content = result.Content,
-                    Status = HttpStatusCode.OK
-                };
-                return Ok(apiResponse);
+                    var apiResponse = new ApiResponse<AuthResponse>()
+                    {
+                        Message = "Success",
+                        Content = result.Content,
+                        Status = HttpStatusCode.OK
+                    };
+                    return Ok(apiResponse);
+                }
+                else
+                {
+                    var apiResponse = new ApiResponse<AuthResponse>()
+                    {
+                        Message = "Error",
+                        Content = result.Content,
+                        Status = HttpStatusCode.BadRequest
+                    };
+                    return Ok(apiResponse);
+                }
             }
-            else {
-                var apiResponse = new ApiResponse<AuthResponse>()
-                {
-                    Message = "Error",
-                    Content = result.Content,
-                    Status = HttpStatusCode.BadRequest
-                };
-                return Ok(apiResponse);
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         [HttpGet, Route("Test")]
@@ -82,30 +90,37 @@ namespace QuizApp.Api.Controllers
         [Route("RefreshToken")]
         public async Task<ActionResult<ApiResponse<AuthResponse>>> Refresh(TokenApiModel tokenApiModel)
         {
-            var apiResponse = new ApiResponse<AuthResponse>();
-            if (tokenApiModel is null)
+            try 
             {
+                var apiResponse = new ApiResponse<AuthResponse>();
+                if (tokenApiModel is null)
                 {
-                    apiResponse.Message = "Invalid client request";
-                    apiResponse.Status = HttpStatusCode.BadRequest;
-                };
-                return BadRequest(apiResponse);
+                    {
+                        apiResponse.Message = "Invalid client request";
+                        apiResponse.Status = HttpStatusCode.BadRequest;
+                    };
+                    return BadRequest(apiResponse);
+                }
+                else
+                {
+                    var newToken = await _usermanager.GenerateTokenThroughVerification(tokenApiModel.RefreshToken);
+                    if (newToken.Message != timeOut)
+                    {
+                        apiResponse.Message = "Your new token is here";
+                        apiResponse.Content = newToken.Content;
+                        apiResponse.Status = HttpStatusCode.BadRequest;
+                    }
+                    else
+                    {
+                        apiResponse.Message = "Redirect to login please";
+                        apiResponse.Status = HttpStatusCode.BadRequest;
+                    }
+                    return Ok(apiResponse);
+                }
             }
-            else 
+            catch (Exception ex)
             {
-                var newToken = await _usermanager.GenerateTokenThroughVerification(tokenApiModel.RefreshToken);
-                if(newToken.Message != timeOut)
-                {
-                    apiResponse.Message = "Your new token is here";
-                    apiResponse.Content = newToken.Content;
-                    apiResponse.Status = HttpStatusCode.BadRequest;
-                }
-                else 
-                {
-                    apiResponse.Message = "Redirect to login please";
-                    apiResponse.Status = HttpStatusCode.BadRequest;
-                }
-                return Ok(apiResponse);
+                throw ex;
             }
         }
     }
