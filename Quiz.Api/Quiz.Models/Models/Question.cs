@@ -1,5 +1,4 @@
-﻿
-namespace Quiz.Models.Models
+﻿namespace Quiz.Models.Models
 {
     public class Question
     {
@@ -7,5 +6,6 @@ namespace Quiz.Models.Models
         public int Number { get; set; }
         public string Title { get; set; }
         public List<Answer> Answers { get; set; }
+        public ICollection<ResultAnswer> ResultAnswer { get; set; }
     }
 }

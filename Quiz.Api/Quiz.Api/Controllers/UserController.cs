@@ -73,7 +73,7 @@ namespace QuizApp.Api.Controllers
                         Content = result.Content,
                         Status = HttpStatusCode.BadRequest
                     };
-                    return Ok(apiResponse);
+                    return BadRequest(apiResponse);
                 }
             }
             catch (Exception ex)
@@ -123,5 +123,7 @@ namespace QuizApp.Api.Controllers
                 throw ex;
             }
         }
+        
+        
     }
 }

@@ -1,8 +1,9 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Quiz.Business.Bussiness.QuestionAnswer;
+using Quiz.Data.Repository.QuestionAnswer;
 using QuizApp.Business.Bussiness.User;
 using QuizApp.Data.Repository.User;
 using QuizModels.Models;
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddScoped<IQARepository, QARepository>();
+builder.Services.AddScoped<IQAManager, QAManager>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

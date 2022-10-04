@@ -15,7 +15,6 @@ namespace QuizApp.Data.Repository.User
     {
         private readonly QuizAppContext _context;
         private readonly IConfiguration _configuration;
-        public const string SessionKeyId = "UserId";
         public Users user = new Users();
         //public HttpContext http;
         public UserRepository(QuizAppContext context, IConfiguration configuration)
@@ -85,7 +84,6 @@ namespace QuizApp.Data.Repository.User
             try 
             {
                 var user = _context.Users.Where(x => x.Email == userDto.Email).FirstOrDefault();
-                //var user = _context.User.FindAsync(userDto.Email);
                 user.RefreshToken = refreshToken.Token;
                 user.TokenCreated = refreshToken.Created;
                 user.TokenExpires = refreshToken.Expires;
