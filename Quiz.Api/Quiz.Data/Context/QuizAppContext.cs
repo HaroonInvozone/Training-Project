@@ -14,18 +14,15 @@ namespace QuizModels.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ResultAnswer>()
+            modelBuilder.Entity<Answer>()
                     .HasOne<Question>(s => s.Question)
-                    .WithMany(g => g.ResultAnswer)
-                    .HasForeignKey(s => s.Question_Id);
-            //modelBuilder.Entity<ResultAnswer>()
-            //        .HasOne<Answer>(s => s.Answer)
-            //        .WithMany(g => g.ResultAnswer)
-            //        .HasForeignKey(s => s.Answer);
+                    .WithMany(g => g.Answers)
+                    .HasForeignKey(s => s.QuestionId);
+
             modelBuilder.Entity<ResultAnswer>()
                     .HasOne<Result>(s => s.Result)
                     .WithMany(g => g.ResultAnswer)
-                    .HasForeignKey(s => s.Result_Id);
+                    .HasForeignKey(s => s.ResultId);
         }
         public DbSet<Users> Users { get; set; }
         public DbSet<Question> Questions { get; set; }

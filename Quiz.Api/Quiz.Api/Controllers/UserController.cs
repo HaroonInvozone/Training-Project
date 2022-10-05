@@ -26,14 +26,16 @@ namespace QuizApp.Api.Controllers
             {
                 var apiResponse = new ApiResponse<Users>();
 
-                if (user is null) {
+                if (user is null) 
+                {
                     {
                         apiResponse.Message = "Please fill out all fields";
                         apiResponse.Status = HttpStatusCode.BadRequest;
                     };
                     return Ok(apiResponse);
                 }
-                else {
+                else
+                {
                     var result = await _usermanager.CreateUser(user);
                     {
                         apiResponse.Message = "Success";
@@ -44,7 +46,8 @@ namespace QuizApp.Api.Controllers
                 }
                 
             }
-            catch (Exception ex) {
+            catch (Exception ex) 
+            {
                 throw ex;
             }
             

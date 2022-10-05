@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Quiz.Data.Repository.QuestionAnswer;
 using Quiz.Models.DTOs;
+using Quiz.Models.Models;
 using QuizApp.Model.Models;
+using System.Net;
 
 namespace Quiz.Business.Bussiness.QuestionAnswer
 {
@@ -15,10 +17,15 @@ namespace Quiz.Business.Bussiness.QuestionAnswer
             _configuration = configuration; 
             _qARepository = qARepository;   
         }
-        public async Task<IActionResult> SaveQuestionAnswers(QADto qADto) 
+        public async Task<ApiResponse<Question>> SaveQuestionAsync(Question question)
         {
-
-            return null;
+            var apiResponse = new ApiResponse<Question>();  
+            if ((question.Title is not null) && (question.Answers is not null))
+            {
+                var result = await _qARepository.SaveQuestionAsync(question);
+                apiResponse.Content = result.Content;   
+            }
+            return apiResponse;
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Quiz.Models.DTOs;
+using Quiz.Models.Models;
 using QuizApp.Model.Models;
 
 namespace Quiz.Business.Bussiness.QuestionAnswer
 {
     public interface IQAManager
     {
-        public Task<IActionResult> SaveQuestionAnswers(QADto qADto);
+        public Task<ApiResponse<Question>> SaveQuestionAsync(Question qADto);
+        //public Task<IActionResult> SaveQuestionAsync(QADto qADto);
     }
 }

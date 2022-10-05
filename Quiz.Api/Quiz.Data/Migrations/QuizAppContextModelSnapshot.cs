@@ -69,22 +69,22 @@ namespace Quiz.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Correct_Answers")
+                    b.Property<int>("CorrectAnswers")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Current_State")
+                    b.Property<bool>("CurrentState")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("End_Time")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Start_Time")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Test_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Total_Questions")
+                    b.Property<int>("TotalQuestions")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
@@ -106,22 +106,15 @@ namespace Quiz.Data.Migrations
                     b.Property<Guid>("AnswerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Answer_Id")
+                    b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Question_Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Result_Id")
+                    b.Property<Guid>("ResultId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnswerId");
-
-                    b.HasIndex("Question_Id");
-
-                    b.HasIndex("Result_Id");
+                    b.HasIndex("ResultId");
 
                     b.ToTable("ResultAnswers");
                 });
@@ -165,13 +158,13 @@ namespace Quiz.Data.Migrations
 
             modelBuilder.Entity("Quiz.Models.Models.Answer", b =>
                 {
-                    b.HasOne("Quiz.Models.Models.Question", "question")
+                    b.HasOne("Quiz.Models.Models.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("question");
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Quiz.Models.Models.Result", b =>
@@ -187,41 +180,18 @@ namespace Quiz.Data.Migrations
 
             modelBuilder.Entity("Quiz.Models.Models.ResultAnswer", b =>
                 {
-                    b.HasOne("Quiz.Models.Models.Answer", "Answer")
-                        .WithMany("ResultAnswer")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Quiz.Models.Models.Question", "Question")
-                        .WithMany("ResultAnswer")
-                        .HasForeignKey("Question_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Quiz.Models.Models.Result", "Result")
                         .WithMany("ResultAnswer")
-                        .HasForeignKey("Result_Id")
+                        .HasForeignKey("ResultId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Answer");
-
-                    b.Navigation("Question");
-
                     b.Navigation("Result");
-                });
-
-            modelBuilder.Entity("Quiz.Models.Models.Answer", b =>
-                {
-                    b.Navigation("ResultAnswer");
                 });
 
             modelBuilder.Entity("Quiz.Models.Models.Question", b =>
                 {
                     b.Navigation("Answers");
-
-                    b.Navigation("ResultAnswer");
                 });
 
             modelBuilder.Entity("Quiz.Models.Models.Result", b =>

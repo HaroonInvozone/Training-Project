@@ -6,6 +6,6 @@
         public int Number { get; set; }
         public string Title { get; set; }
         public List<Answer> Answers { get; set; }
-        public ICollection<ResultAnswer> ResultAnswer { get; set; }
+        //public ICollection<ResultAnswer> ResultAnswer { get; set; }
     }
 }

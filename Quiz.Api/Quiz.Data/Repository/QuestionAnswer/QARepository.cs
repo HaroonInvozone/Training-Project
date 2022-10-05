@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Quiz.Models.DTOs;
+using Quiz.Models.Models;
+using QuizApp.Model.Models;
 using QuizModels.Models;
 
 namespace Quiz.Data.Repository.QuestionAnswer
@@ -11,9 +14,14 @@ namespace Quiz.Data.Repository.QuestionAnswer
         {
             _context = context; 
         }
-        public async Task<IActionResult> SaveQuestionAnswers(QADto qADto)
+        public async Task<ApiResponse<Question>> SaveQuestionAsync(Question question)
         {
-            return null;
+            var apiresponse = new ApiResponse<Question>();
+            await _context.Questions.AddAsync(question);
+            await _context.Answers.AddRangeAsync(question.Answers);
+            await _context.SaveChangesAsync();
+            apiresponse.Content = question;
+            return apiresponse;
         }
     }
 }

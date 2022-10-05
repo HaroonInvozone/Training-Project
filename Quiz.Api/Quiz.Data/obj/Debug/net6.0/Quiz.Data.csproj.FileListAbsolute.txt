@@ -1,4 +1,5 @@
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\bin\Debug\net6.0\Quiz.Data.deps.json
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\bin\Debug\net6.0\Quiz.Data.runtimeconfig.json
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\bin\Debug\net6.0\Quiz.Data.dll
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\bin\Debug\net6.0\Quiz.Data.pdb
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\bin\Debug\net6.0\Quiz.Models.dll
@@ -12,4 +13,5 @@ C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\obj\Debug\net6.0\Quiz.Data.
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\obj\Debug\net6.0\Quiz.Data.dll
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\obj\Debug\net6.0\refint\Quiz.Data.dll
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\obj\Debug\net6.0\Quiz.Data.pdb
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\obj\Debug\net6.0\Quiz.Data.genruntimeconfig.cache
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Data\obj\Debug\net6.0\ref\Quiz.Data.dll
