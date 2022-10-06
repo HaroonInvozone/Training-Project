@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Quiz.Models.DTOs;
+using Quiz.Models.Models;
 using QuizApi;
 using QuizApp.Model.DTOs;
 using QuizApp.Model.Models;

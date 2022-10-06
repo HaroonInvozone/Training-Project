@@ -13,16 +13,16 @@ namespace Quiz.Api.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private readonly IQAManager _usermanager;
+        private readonly IQAManager _questionmanager;
         public QuestionController(IQAManager userManager)
         {
-            _usermanager = userManager;
+            _questionmanager = userManager;
         }
         [HttpGet, Route("AddQuestions")]
         public async Task<ActionResult<ApiResponse<Question>>> AddQuestions(Question question)
         {
             var apiResponse = new ApiResponse<Question>();
-            var result = await _usermanager.SaveQuestionAsync(question);
+            var result = await _questionmanager.SaveQuestionAsync(question);
             if (result is not null)
             {
                 {
@@ -38,6 +38,16 @@ namespace Quiz.Api.Controllers
                 apiResponse.Status = HttpStatusCode.BadRequest;
                 return BadRequest(apiResponse);
             }
+        }
+        [HttpGet, Route("GetAllQuestion")]
+        public async Task<ApiResponse<List<Question>>> GetQuestionAsync() 
+        {
+            var apiResponce = new ApiResponse<List<Question>>();
+            var result = await _questionmanager.GetQuestionsAsync();
+            apiResponce.Message = "List of questions";
+            apiResponce.Status = HttpStatusCode.OK;
+            apiResponce.Content = result.Content;
+            return apiResponce;
         }
         [HttpGet, Route("Test")]
         public async Task<ActionResult<string>> Test()

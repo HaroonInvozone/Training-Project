@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Quiz.Models.DTOs;
 using Quiz.Models.Models;
 using QuizApp.Model.Models;
@@ -22,6 +23,14 @@ namespace Quiz.Data.Repository.QuestionAnswer
             await _context.SaveChangesAsync();
             apiresponse.Content = question;
             return apiresponse;
+        }
+        public async Task<ApiResponse<List<Question>>> GetQuestionsAsync()
+        {
+            var question = new List<Question>();
+            var apiResponce = new ApiResponse<List<Question>>();
+            question = await _context.Questions.ToListAsync();
+            apiResponce.Content = question;
+            return apiResponce;
         }
     }
 }

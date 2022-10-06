@@ -27,5 +27,12 @@ namespace Quiz.Business.Bussiness.QuestionAnswer
             }
             return apiResponse;
         }
+        public async Task<ApiResponse<List<Question>>> GetQuestionsAsync()
+        {
+            var apiResponce = new ApiResponse<List<Question>>();
+            var result = await _qARepository.GetQuestionsAsync();
+            apiResponce.Content = result.Content;
+            return apiResponce;
+        }
     }
 }

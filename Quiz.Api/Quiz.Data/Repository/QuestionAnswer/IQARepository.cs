@@ -8,6 +8,6 @@ namespace Quiz.Data.Repository.QuestionAnswer
     public interface IQARepository
     {
         public Task<ApiResponse<Question>> SaveQuestionAsync(Question qADto);
-        //public Task<IActionResult> SaveQuestionAsync(QADto qADto);
+        public Task<ApiResponse<List<Question>>> GetQuestionsAsync();
     }
 }
