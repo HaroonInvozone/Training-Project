@@ -5,9 +5,10 @@ using QuizApp.Model.Models;
 
 namespace Quiz.Business.Bussiness.QuestionAnswer
 {
-    public interface IQAManager
+    public interface IQuestionManager
     {
         public Task<ApiResponse<Question>> SaveQuestionAsync(Question qADto);
         public Task<ApiResponse<List<Question>>> GetQuestionsAsync();
+        public Task<ApiResponse<Question>> SaveAnswerAsync(int questionId);
     }
 }

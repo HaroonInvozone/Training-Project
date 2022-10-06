@@ -126,5 +126,20 @@ namespace QuizApp.Data.Repository.User
                 throw ex;
             }
         }
+        public async Task<ApiResponse<List<Users>>> GetUsersAsync()
+        {
+            try
+            {
+                var users = new List<Users>();
+                var apiResponce = new ApiResponse<List<Users>>();
+                users = await _context.Users.ToListAsync();
+                apiResponce.Content = users;
+                return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

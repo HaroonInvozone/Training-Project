@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Quiz.Models.DTOs;
+using Quiz.Models.Models;
 using QuizApi;
 using QuizApp.Data.Repository.User;
 using QuizApp.Model.DTOs;
@@ -65,7 +66,7 @@ namespace QuizApp.Business.Bussiness.User
                 {
                     //Create a logic to get role
                     new Claim(ClaimTypes.Email, userDto.Email),
-                    new Claim(ClaimTypes.Role, "Admin")
+                    new Claim(ClaimTypes.Role, "User")
                 };
                 var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                     _configuration.GetSection("AppSettings:Token").Value));
@@ -129,8 +130,20 @@ namespace QuizApp.Business.Bussiness.User
             {
                 throw ex;
             }
-            
-
+        }
+        public async Task<ApiResponse<List<Users>>> GetUsersAsync() 
+        {
+            try
+            {
+                var apiResponce = new ApiResponse<List<Users>>();
+                var result = await _userRepository.GetUsersAsync();
+                apiResponce.Content = result.Content;
+                return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

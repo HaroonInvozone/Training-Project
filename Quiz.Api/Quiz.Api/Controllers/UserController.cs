@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Quiz.Models.DTOs;
+using Quiz.Models.Models;
 using QuizApp.Business.Bussiness.User;
 using QuizApp.Model.DTOs;
 using QuizApp.Model.Models;
@@ -18,6 +19,22 @@ namespace QuizApp.Api.Controllers
         public UserController(IUserManager userManager)
         {
             _usermanager = userManager;
+        }
+        [HttpGet, Route("GetAllUsers")]
+        public async Task<ApiResponse<List<Users>>> GetQuestionAsync()
+        {
+            try {
+                var apiResponce = new ApiResponse<List<Users>>();
+                var result = await _usermanager.GetUsersAsync();
+                apiResponce.Message = "List of Users";
+                apiResponce.Status = HttpStatusCode.OK;
+                apiResponce.Content = result.Content;
+                return apiResponce;
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
         }
         [HttpPost, Route("Register")]
         public async Task<ActionResult<ApiResponse<Users>>> RegisterUser(UserDto user) 
@@ -44,13 +61,11 @@ namespace QuizApp.Api.Controllers
                     };
                     return Ok(apiResponse);
                 }
-                
             }
             catch (Exception ex) 
             {
                 throw ex;
             }
-            
         }
         [HttpPost, Route("Login")]
         public async Task<ActionResult<ApiResponse<AuthResponse>>> Login(UserDto user) 
@@ -126,7 +141,5 @@ namespace QuizApp.Api.Controllers
                 throw ex;
             }
         }
-        
-        
     }
 }

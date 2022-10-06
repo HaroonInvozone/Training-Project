@@ -5,7 +5,7 @@ using QuizApp.Model.Models;
 
 namespace Quiz.Data.Repository.QuestionAnswer
 {
-    public interface IQARepository
+    public interface IQuestionRepository
     {
         public Task<ApiResponse<Question>> SaveQuestionAsync(Question qADto);
         public Task<ApiResponse<List<Question>>> GetQuestionsAsync();

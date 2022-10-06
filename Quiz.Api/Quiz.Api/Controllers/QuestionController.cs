@@ -13,41 +13,60 @@ namespace Quiz.Api.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private readonly IQAManager _questionmanager;
-        public QuestionController(IQAManager userManager)
+        private readonly IQuestionManager _questionmanager;
+        public QuestionController(IQuestionManager userManager)
         {
             _questionmanager = userManager;
         }
         [HttpGet, Route("AddQuestions")]
         public async Task<ActionResult<ApiResponse<Question>>> AddQuestions(Question question)
         {
-            var apiResponse = new ApiResponse<Question>();
-            var result = await _questionmanager.SaveQuestionAsync(question);
-            if (result is not null)
+            try
             {
+                var apiResponse = new ApiResponse<Question>();
+                var result = await _questionmanager.SaveQuestionAsync(question);
+                if (result is not null)
                 {
-                    apiResponse.Message = "Question save successfully";
-                    apiResponse.Status = HttpStatusCode.OK;
-                    apiResponse.Content = result.Content;
-                };
-                return Ok(apiResponse);
+                    {
+                        apiResponse.Message = "Question save successfully";
+                        apiResponse.Status = HttpStatusCode.OK;
+                        apiResponse.Content = result.Content;
+                    };
+                    return Ok(apiResponse);
+                }
+                else
+                {
+                    apiResponse.Message = "Please fill out all fields";
+                    apiResponse.Status = HttpStatusCode.BadRequest;
+                    return BadRequest(apiResponse);
+                }
             }
-            else 
+            catch (Exception ex)
             {
-                apiResponse.Message = "Please fill out all fields";
-                apiResponse.Status = HttpStatusCode.BadRequest;
-                return BadRequest(apiResponse);
+                throw ex;
             }
         }
         [HttpGet, Route("GetAllQuestion")]
         public async Task<ApiResponse<List<Question>>> GetQuestionAsync() 
         {
-            var apiResponce = new ApiResponse<List<Question>>();
-            var result = await _questionmanager.GetQuestionsAsync();
-            apiResponce.Message = "List of questions";
-            apiResponce.Status = HttpStatusCode.OK;
-            apiResponce.Content = result.Content;
-            return apiResponce;
+            try
+            {
+                var apiResponce = new ApiResponse<List<Question>>();
+                var result = await _questionmanager.GetQuestionsAsync();
+                apiResponce.Message = "List of questions";
+                apiResponce.Status = HttpStatusCode.OK;
+                apiResponce.Content = result.Content;
+                return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [HttpGet, Route("SaveAnswer")]
+        public async Task<ActionResult> SaveAnswerAsync(GetAnswer getAnswer) 
+        {
+            return null;
         }
         [HttpGet, Route("Test")]
         public async Task<ActionResult<string>> Test()
