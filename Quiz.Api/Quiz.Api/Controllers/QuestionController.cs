@@ -18,7 +18,7 @@ namespace Quiz.Api.Controllers
         {
             _usermanager = userManager;
         }
-        [HttpPost, Route("AddQuestions")]
+        [HttpGet, Route("AddQuestions")]
         public async Task<ActionResult<ApiResponse<Question>>> AddQuestions(Question question)
         {
             var apiResponse = new ApiResponse<Question>();
@@ -29,7 +29,6 @@ namespace Quiz.Api.Controllers
                     apiResponse.Message = "Question save successfully";
                     apiResponse.Status = HttpStatusCode.OK;
                     apiResponse.Content = result.Content;
-
                 };
                 return Ok(apiResponse);
             }

@@ -9,6 +9,8 @@ using QuizApp.Data.Repository.User;
 using QuizModels.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,9 +58,10 @@ builder.Services.AddDbContext<QuizAppContext>(option =>
 );
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
