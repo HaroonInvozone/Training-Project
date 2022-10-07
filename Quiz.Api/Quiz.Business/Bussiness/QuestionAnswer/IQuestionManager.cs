@@ -9,6 +9,6 @@ namespace Quiz.Business.Bussiness.QuestionAnswer
     {
         public Task<ApiResponse<Question>> SaveQuestionAsync(Question qADto);
         public Task<ApiResponse<List<Question>>> GetQuestionsAsync();
-        public Task<ApiResponse<Question>> SaveAnswerAsync(int questionId);
+        public Task<ActionResult> SaveAnswerAsync(GetAnswer getAnswer);
     }
 }

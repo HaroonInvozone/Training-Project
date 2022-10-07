@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizModels.Models;
 
@@ -11,9 +12,10 @@ using QuizModels.Models;
 namespace Quiz.Data.Migrations
 {
     [DbContext(typeof(QuizAppContext))]
-    partial class QuizAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221006130513_AddIsCorrect")]
+    partial class AddIsCorrect
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,25 +70,25 @@ namespace Quiz.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CorrectAnswers")
+                    b.Property<int>("CorrectAnswers")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("CurrentState")
+                    b.Property<bool>("CurrentState")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("EndTime")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("StartTime")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("Test_Date")
+                    b.Property<DateTime>("Test_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TotalQuestions")
+                    b.Property<int>("TotalQuestions")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -175,7 +177,9 @@ namespace Quiz.Data.Migrations
                 {
                     b.HasOne("QuizApp.Model.Models.Users", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

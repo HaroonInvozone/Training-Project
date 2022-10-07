@@ -9,5 +9,8 @@ namespace Quiz.Data.Repository.QuestionAnswer
     {
         public Task<ApiResponse<Question>> SaveQuestionAsync(Question qADto);
         public Task<ApiResponse<List<Question>>> GetQuestionsAsync();
+        public Task<ActionResult> SaveAnswerAsync(ResultAnswer resultAnswer);
+        public Task<Guid> GetCorrectAnswer(Guid Questionguid);
+        public Task<Guid> GetResultId(Guid UserId);
     }
 }

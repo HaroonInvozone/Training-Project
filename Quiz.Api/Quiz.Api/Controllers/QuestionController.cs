@@ -64,8 +64,9 @@ namespace Quiz.Api.Controllers
             }
         }
         [HttpGet, Route("SaveAnswer")]
-        public async Task<ActionResult> SaveAnswerAsync(GetAnswer getAnswer) 
+        public async Task<ActionResult> SaveAnswerAsync([FromQuery] GetAnswer getAnswer) 
         {
+            await _questionmanager.SaveAnswerAsync(getAnswer);
             return null;
         }
         [HttpGet, Route("Test")]
