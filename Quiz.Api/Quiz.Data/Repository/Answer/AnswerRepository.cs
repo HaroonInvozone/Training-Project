@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Quiz.Models.DTOs;
 using Quiz.Models.Models;
+using QuizApp.Model.Models;
 using QuizModels.Models;
 using System.Runtime.InteropServices;
 
@@ -48,14 +49,16 @@ namespace Quiz.Data.Repository.Answers
             }
 
         }
-        public async Task<string> SaveAnswerAsync(ResultAnswer resultAnswer)
+        public async Task<ApiResponse<Result>> SaveAnswerAsync(ResultAnswer resultAnswer)
         {
+            var apiResponse = new ApiResponse<Result>();
             await _context.ResultAnswers.AddAsync(resultAnswer);
             await _context.SaveChangesAsync();
-            return "Your answer save successfully.";
+            return apiResponse;
         }
-        public async Task<string> SaveResult(Guid ResultId) 
+        public async Task<ApiResponse<Result>> SaveResult(Guid ResultId) 
         {
+            var apiResponse = new ApiResponse<Result>();
             var result = new Result();
             var TotalAnswers = await _context.ResultAnswers
                                 .Where(x => x.ResultId == ResultId)
@@ -80,15 +83,19 @@ namespace Quiz.Data.Repository.Answers
                 result.CurrentState = false;
             await _context.Results.AddAsync(result);
             await _context.SaveChangesAsync();
-            return null;
+            apiResponse.Content = result;
+            return apiResponse;
         }
-        public async Task<Result> GetResultAsync(GetResult getResult) 
+        public async Task<ApiResponse<Result>> GetResultAsync(GetResult getResult) 
         {
-            var result = await _context.Results.Where(
+            var apiResponse = new ApiResponse<Result>();
+            var result = new Result();
+            result = await _context.Results.Where(
                         x => x.UserId == getResult.UserId
                         && x.Id == getResult.ResultId
                         ).FirstOrDefaultAsync();
-            return result;
+            apiResponse.Content = result;
+            return apiResponse;
         }
     }
 }

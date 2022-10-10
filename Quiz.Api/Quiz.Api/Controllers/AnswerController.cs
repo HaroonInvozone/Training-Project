@@ -2,6 +2,8 @@
 using Quiz.Business.Bussiness.Answers;
 using Quiz.Models.DTOs;
 using Quiz.Models.Models;
+using QuizApp.Model.Models;
+using System.Net;
 
 namespace Quiz.Api.Controllers
 {
@@ -15,16 +17,33 @@ namespace Quiz.Api.Controllers
             _answerManager = answerManager;
         }
         [HttpGet, Route("SaveAnswer")]
-        public async Task<string> SaveAnswerAsync([FromQuery] GetAnswer getAnswer)
+        public async Task<ApiResponse<Result>> SaveAnswerAsync([FromQuery] GetAnswer getAnswer)
         {
-            var result = await _answerManager.SaveAnswerAsync(getAnswer);
-            return result;
+            var apiResponse = new ApiResponse<Result>();
+            var result = new Result();
+            var response = await _answerManager.SaveAnswerAsync(getAnswer);
+            if (response.Content is null)
+            {
+                apiResponse.Message = "Your answer is save successssfully";
+                apiResponse.Status = HttpStatusCode.OK;
+            }
+            else 
+            {
+                apiResponse.Message = "Here is your result";
+                apiResponse.Status = HttpStatusCode.OK;
+                apiResponse.Content = response.Content;        
+            }
+            return apiResponse;
         }
         [HttpGet, Route("GetResult By Result Id")]
-        public async Task<Result> GetResult(GetResult getResult) 
+        public async Task<ApiResponse<Result>> GetResultByIdAsync(GetResult getResult) 
         {
+            var apiResponce = new ApiResponse<Result>();
             var result = await _answerManager.GetResultAsync(getResult);
-            return result;
+            apiResponce.Message = "Here is the result";
+            apiResponce.Status = HttpStatusCode.OK;
+            apiResponce.Content = result.Content;
+            return apiResponce;
         }
         [HttpGet, Route("Test")]
         public async Task<ActionResult<string>> Test()

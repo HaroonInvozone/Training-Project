@@ -2,6 +2,7 @@
 using Quiz.Data.Repository.Answers;
 using Quiz.Models.DTOs;
 using Quiz.Models.Models;
+using QuizApp.Model.Models;
 
 namespace Quiz.Business.Bussiness.Answers
 {
@@ -16,8 +17,9 @@ namespace Quiz.Business.Bussiness.Answers
             _configuration = configuration;
             _answerRepository = answerManager;
         }
-        public async Task<string> SaveAnswerAsync(GetAnswer getAnswer)
+        public async Task<ApiResponse<Result>> SaveAnswerAsync(GetAnswer getAnswer)
         {
+            var apiResponce = new ApiResponse<Result>();
             var resultAnswer = new ResultAnswer();
             var CorrectId = await _answerRepository.GetCorrectAnswer(getAnswer.QuestionId);
             if (ResultId == null || ResultId == Guid.Empty)
@@ -32,15 +34,22 @@ namespace Quiz.Business.Bussiness.Answers
                 resultAnswer.IsCorrect = true;
             else
                 resultAnswer.IsCorrect = false;
+            //pass api response as it is 
             var result = await _answerRepository.SaveAnswerAsync(resultAnswer);
-            if (TotalQuestions == getAnswer.QuestionNumber)
-                await _answerRepository.SaveResult(ResultId);
-            return result;
+            if (TotalQuestions == getAnswer.QuestionNumber) 
+            {
+                var response = await _answerRepository.SaveResult(ResultId);
+                apiResponce.Content = response.Content;
+            }
+                
+            return apiResponce;
         }
-        public async Task<Result> GetResultAsync(GetResult getResult)
+        public async Task<ApiResponse<Result>> GetResultAsync(GetResult getResult)
         {
+            var apiResponse = new ApiResponse<Result>();
             var result = await _answerRepository.GetResultAsync(getResult);
-            return result;
+            apiResponse.Content = result.Content;
+            return apiResponse;
         }
     }
 }
