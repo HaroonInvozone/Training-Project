@@ -59,7 +59,6 @@ namespace QuizApp.Business.Bussiness.User
         }
         public string CreateToken(UserDto userDto)
         {
-            
             try
             {
                 List<Claim> claims = new List<Claim>

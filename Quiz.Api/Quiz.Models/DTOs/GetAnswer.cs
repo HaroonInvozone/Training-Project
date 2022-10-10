@@ -6,5 +6,6 @@ namespace Quiz.Models.DTOs
         public Guid QuestionId { get; set; }
         public Guid AnswerId { get; set; }
         public Guid UserId { get; set; }
+        public int QuestionNumber { get; set; }
     }
 }

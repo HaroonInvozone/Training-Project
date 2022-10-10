@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Quiz.Models.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
 using Quiz.Models.Models;
 using QuizApp.Model.Models;
 using QuizModels.Models;
@@ -47,33 +44,6 @@ namespace Quiz.Data.Repository.QuestionAnswer
                 throw ex;
             }
         }
-        public async Task<ActionResult> SaveAnswerAsync(ResultAnswer resultAnswer) 
-        {
-            await _context.ResultAnswers.AddAsync(resultAnswer);
-            await _context.SaveChangesAsync();
-            return null;
-        }
-        public async Task<Guid> GetCorrectAnswer(Guid Questionguid) 
-        {
-            var CorrectId = await _context.Answers.Where(x => x.QuestionId == Questionguid && x.IsCorrect == true).FirstOrDefaultAsync();
-            return CorrectId.Id;
-        }
-        public async Task<Guid> GetResultId(Guid UserId) 
-        {
-            try
-            {
-                var Result = new Result();
-                Result.Test_Date = DateTime.Now;
-                Result.StartTime = DateTime.Now;
-                await _context.Results.AddAsync(Result);
-                await _context.SaveChangesAsync();
-                return Result.Id;
-            }
-            catch(Exception ex) 
-            {
-                throw ex;
-            }
-             
-        }
+        
     }
 }

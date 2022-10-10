@@ -12,9 +12,6 @@ namespace Quiz.Business.Bussiness.QuestionAnswer
     {
         private readonly IConfiguration _configuration;
         private readonly IQuestionRepository _qARepository;
-        private static Guid ResultId;
-        private static int Count;
-        //int static Count;
         public QuestionManager(IConfiguration configuration,IQuestionRepository qARepository)
         {
             _configuration = configuration; 
@@ -50,25 +47,6 @@ namespace Quiz.Business.Bussiness.QuestionAnswer
             {
                 throw ex;
             }
-        }
-        public async Task<ActionResult> SaveAnswerAsync(GetAnswer getAnswer) 
-        {
-            var resultAnswer = new ResultAnswer();
-            var CorrectId = await _qARepository.GetCorrectAnswer(getAnswer.QuestionId);
-            if (Count.Equals(1)) 
-            {
-                ResultId = await _qARepository.GetResultId(getAnswer.UserId);
-                Count++;
-            }
-            resultAnswer.QuestionId = getAnswer.QuestionId;
-            resultAnswer.AnswerId = getAnswer.AnswerId;
-            resultAnswer.ResultId = ResultId;
-            if (getAnswer.AnswerId.Equals(CorrectId))
-                resultAnswer.IsCorrect = true;
-            else
-                resultAnswer.IsCorrect = false;
-            await _qARepository.SaveAnswerAsync(resultAnswer);
-            return null;
         }
     }
 }
