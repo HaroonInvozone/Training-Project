@@ -1,4 +1,5 @@
-﻿using Quiz.Models.Models;
+﻿using Quiz.Models.DTOs;
+using Quiz.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Quiz.Data.Repository.Answers
         public Task<int> GetAllAnswersNumber();
         public Task<string> SaveAnswerAsync(ResultAnswer resultAnswer);
         public Task<string> SaveResult(Guid ResultId);
+        public Task<Result> GetResultAsync(GetResult getResult);
     }
 }

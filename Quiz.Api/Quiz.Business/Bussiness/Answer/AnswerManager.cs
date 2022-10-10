@@ -37,5 +37,10 @@ namespace Quiz.Business.Bussiness.Answers
                 await _answerRepository.SaveResult(ResultId);
             return result;
         }
+        public async Task<Result> GetResultAsync(GetResult getResult)
+        {
+            var result = await _answerRepository.GetResultAsync(getResult);
+            return result;
+        }
     }
 }

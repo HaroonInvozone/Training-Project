@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Quiz.Business.Bussiness.Answers;
 using Quiz.Models.DTOs;
+using Quiz.Models.Models;
 
 namespace Quiz.Api.Controllers
 {
@@ -18,6 +18,12 @@ namespace Quiz.Api.Controllers
         public async Task<string> SaveAnswerAsync([FromQuery] GetAnswer getAnswer)
         {
             var result = await _answerManager.SaveAnswerAsync(getAnswer);
+            return result;
+        }
+        [HttpGet, Route("GetResult By Result Id")]
+        public async Task<Result> GetResult(GetResult getResult) 
+        {
+            var result = await _answerManager.GetResultAsync(getResult);
             return result;
         }
         [HttpGet, Route("Test")]

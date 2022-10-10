@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Quiz.Models.DTOs;
 using Quiz.Models.Models;
 using QuizModels.Models;
 using System.Runtime.InteropServices;
@@ -36,6 +37,7 @@ namespace Quiz.Data.Repository.Answers
                 var Result = new Result();
                 Result.Test_Date = DateTime.Now;
                 Result.StartTime = DateTime.Now;
+                Result.UserId = UserId;
                 await _context.Results.AddAsync(Result);
                 await _context.SaveChangesAsync();
                 return Result.Id;
@@ -55,19 +57,38 @@ namespace Quiz.Data.Repository.Answers
         public async Task<string> SaveResult(Guid ResultId) 
         {
             var result = new Result();
-            var TotalAnswers = await _context.ResultAnswers.Select(x => new { 
-                               x.IsCorrect,
-                               }).ToListAsync();
-            int CorrectAnswers = TotalAnswers.Where(x => x.IsCorrect == true).Count();
-            int WrongAnswers = TotalAnswers.Where(x => x.IsCorrect == false).Count();
+            var TotalAnswers = await _context.ResultAnswers
+                                .Where(x => x.ResultId == ResultId)
+                                .Select(x => new 
+                                { 
+                                    x.IsCorrect,
+                                })
+                                .ToListAsync();
+            int CorrectAnswers = TotalAnswers
+                                .Where(x => x.IsCorrect == true)
+                                .Count();
+            int WrongAnswers = TotalAnswers
+                                .Where(x => x.IsCorrect == false)
+                                .Count();
             result = await _context.Results.FindAsync(ResultId);
             result.CorrectAnswers = CorrectAnswers;
             result.TotalQuestions = TotalAnswers.Count();
+            result.EndTime = DateTime.Now;
             if (CorrectAnswers > WrongAnswers) 
                 result.CurrentState = true;
             else
                 result.CurrentState = false;
+            await _context.Results.AddAsync(result);
+            await _context.SaveChangesAsync();
             return null;
+        }
+        public async Task<Result> GetResultAsync(GetResult getResult) 
+        {
+            var result = await _context.Results.Where(
+                        x => x.UserId == getResult.UserId
+                        && x.Id == getResult.ResultId
+                        ).FirstOrDefaultAsync();
+            return result;
         }
     }
 }
