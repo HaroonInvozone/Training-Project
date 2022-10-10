@@ -19,31 +19,45 @@ namespace Quiz.Api.Controllers
         [HttpGet, Route("SaveAnswer")]
         public async Task<ApiResponse<Result>> SaveAnswerAsync([FromQuery] GetAnswer getAnswer)
         {
-            var apiResponse = new ApiResponse<Result>();
-            var result = new Result();
-            var response = await _answerManager.SaveAnswerAsync(getAnswer);
-            if (response.Content is null)
+            try
             {
-                apiResponse.Message = "Your answer is save successssfully";
-                apiResponse.Status = HttpStatusCode.OK;
+                var apiResponse = new ApiResponse<Result>();
+                var result = new Result();
+                var response = await _answerManager.SaveAnswerAsync(getAnswer);
+                if (response.Content is null)
+                {
+                    apiResponse.Message = "Your answer is save successssfully";
+                    apiResponse.Status = HttpStatusCode.OK;
+                }
+                else
+                {
+                    apiResponse.Message = "Here is your result";
+                    apiResponse.Status = HttpStatusCode.OK;
+                    apiResponse.Content = response.Content;
+                }
+                return apiResponse;
             }
-            else 
+            catch(Exception ex) 
             {
-                apiResponse.Message = "Here is your result";
-                apiResponse.Status = HttpStatusCode.OK;
-                apiResponse.Content = response.Content;        
+                throw ex;
             }
-            return apiResponse;
         }
         [HttpGet, Route("GetResult By Result Id")]
         public async Task<ApiResponse<Result>> GetResultByIdAsync(GetResult getResult) 
         {
-            var apiResponce = new ApiResponse<Result>();
-            var result = await _answerManager.GetResultAsync(getResult);
-            apiResponce.Message = "Here is the result";
-            apiResponce.Status = HttpStatusCode.OK;
-            apiResponce.Content = result.Content;
-            return apiResponce;
+            try
+            {
+                var apiResponce = new ApiResponse<Result>();
+                var result = await _answerManager.GetResultAsync(getResult);
+                apiResponce.Message = "Here is the result";
+                apiResponce.Status = HttpStatusCode.OK;
+                apiResponce.Content = result.Content;
+                return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         [HttpGet, Route("Test")]
         public async Task<ActionResult<string>> Test()

@@ -19,37 +19,50 @@ namespace Quiz.Business.Bussiness.Answers
         }
         public async Task<ApiResponse<Result>> SaveAnswerAsync(GetAnswer getAnswer)
         {
-            var apiResponce = new ApiResponse<Result>();
-            var resultAnswer = new ResultAnswer();
-            var CorrectId = await _answerRepository.GetCorrectAnswer(getAnswer.QuestionId);
-            if (ResultId == null || ResultId == Guid.Empty)
+            try
             {
-                ResultId = await _answerRepository.GetResultId(getAnswer.UserId);
-                TotalQuestions = await _answerRepository.GetAllAnswersNumber();
+                var apiResponce = new ApiResponse<Result>();
+                var resultAnswer = new ResultAnswer();
+                var CorrectId = await _answerRepository.GetCorrectAnswer(getAnswer.QuestionId);
+                if (ResultId == null || ResultId == Guid.Empty)
+                {
+                    ResultId = await _answerRepository.GetResultId(getAnswer.UserId);
+                    TotalQuestions = await _answerRepository.GetAllAnswersNumber();
+                }
+                resultAnswer.QuestionId = getAnswer.QuestionId;
+                resultAnswer.AnswerId = getAnswer.AnswerId;
+                resultAnswer.ResultId = ResultId;
+                if (getAnswer.AnswerId.Equals(CorrectId))
+                    resultAnswer.IsCorrect = true;
+                else
+                    resultAnswer.IsCorrect = false;
+                //pass api response as it is 
+                var result = await _answerRepository.SaveAnswerAsync(resultAnswer);
+                if (TotalQuestions == getAnswer.QuestionNumber)
+                {
+                    var response = await _answerRepository.SaveResult(ResultId);
+                    apiResponce.Content = response.Content;
+                }
+                return apiResponce;
             }
-            resultAnswer.QuestionId = getAnswer.QuestionId;
-            resultAnswer.AnswerId = getAnswer.AnswerId;
-            resultAnswer.ResultId = ResultId;
-            if (getAnswer.AnswerId.Equals(CorrectId))
-                resultAnswer.IsCorrect = true;
-            else
-                resultAnswer.IsCorrect = false;
-            //pass api response as it is 
-            var result = await _answerRepository.SaveAnswerAsync(resultAnswer);
-            if (TotalQuestions == getAnswer.QuestionNumber) 
+            catch (Exception ex)
             {
-                var response = await _answerRepository.SaveResult(ResultId);
-                apiResponce.Content = response.Content;
+                throw ex;
             }
-                
-            return apiResponce;
         }
         public async Task<ApiResponse<Result>> GetResultAsync(GetResult getResult)
         {
-            var apiResponse = new ApiResponse<Result>();
-            var result = await _answerRepository.GetResultAsync(getResult);
-            apiResponse.Content = result.Content;
-            return apiResponse;
+            try
+            {
+                var apiResponse = new ApiResponse<Result>();
+                var result = await _answerRepository.GetResultAsync(getResult);
+                apiResponse.Content = result.Content;
+                return apiResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
