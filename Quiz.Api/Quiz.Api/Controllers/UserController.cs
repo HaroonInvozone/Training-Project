@@ -21,7 +21,7 @@ namespace QuizApp.Api.Controllers
             _usermanager = userManager;
         }
         [HttpGet, Route("GetAllUsers")]
-        public async Task<ApiResponse<List<Users>>> GetQuestionAsync()
+        public async Task<ApiResponse<List<Users>>> GetUserAsync()
         {
             try {
                 var apiResponce = new ApiResponse<List<Users>>();
