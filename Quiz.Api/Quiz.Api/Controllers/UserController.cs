@@ -99,11 +99,6 @@ namespace QuizApp.Api.Controllers
                 throw ex;
             }
         }
-        [HttpGet, Route("Test")]
-        public async Task<ActionResult<string>> Test()
-        {
-            return Ok("Hy test");
-        }
         [HttpPost]
         [Route("RefreshToken")]
         public async Task<ActionResult<ApiResponse<AuthResponse>>> Refresh(TokenApiModel tokenApiModel)
