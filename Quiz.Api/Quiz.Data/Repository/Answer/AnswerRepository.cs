@@ -96,7 +96,7 @@ namespace Quiz.Data.Repository.Answers
                     result.CurrentState = true;
                 else
                     result.CurrentState = false;
-                await _context.Results.AddAsync(result);
+                _context.Results.Update(result);
                 await _context.SaveChangesAsync();
                 apiResponse.Content = result;
                 return apiResponse;
@@ -106,23 +106,6 @@ namespace Quiz.Data.Repository.Answers
                 throw ex;
             }
         }
-        public async Task<ApiResponse<Result>> GetResultAsync(GetResult getResult) 
-        {
-            try
-            {
-                var apiResponse = new ApiResponse<Result>();
-                var result = new Result();
-                result = await _context.Results
-                            .Where(x => x.UserId == getResult.UserId
-                             && x.Id == getResult.ResultId)
-                            .FirstOrDefaultAsync();
-                apiResponse.Content = result;
-                return apiResponse;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+       
     }
 }

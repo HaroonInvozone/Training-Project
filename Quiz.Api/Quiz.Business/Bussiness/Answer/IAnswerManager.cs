@@ -8,6 +8,6 @@ namespace Quiz.Business.Bussiness.Answers
     public interface IAnswerManager
     {
         public Task<ApiResponse<Result>> SaveAnswerAsync(GetAnswer getAnswer);
-        public Task<ApiResponse<Result>> GetResultAsync(GetResult getResult);
+        //public Task<ApiResponse<Result>> GetResultAsync(GetResult getResult);
     }
 }

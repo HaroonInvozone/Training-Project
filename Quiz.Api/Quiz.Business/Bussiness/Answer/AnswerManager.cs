@@ -50,19 +50,6 @@ namespace Quiz.Business.Bussiness.Answers
                 throw ex;
             }
         }
-        public async Task<ApiResponse<Result>> GetResultAsync(GetResult getResult)
-        {
-            try
-            {
-                var apiResponse = new ApiResponse<Result>();
-                var result = await _answerRepository.GetResultAsync(getResult);
-                apiResponse.Content = result.Content;
-                return apiResponse;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        
     }
 }

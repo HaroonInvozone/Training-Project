@@ -20,7 +20,7 @@ namespace QuizApp.Api.Controllers
         {
             _usermanager = userManager;
         }
-        [HttpGet, Route("GetAllUsers")]
+        [HttpGet, Route("GetAllUsers"), Authorize(Roles = "Admin")]
         public async Task<ApiResponse<List<Users>>> GetUserAsync()
         {
             try {

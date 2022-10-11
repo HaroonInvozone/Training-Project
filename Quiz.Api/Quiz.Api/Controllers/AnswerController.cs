@@ -18,9 +18,17 @@ namespace Quiz.Api.Controllers
         }
         [HttpGet, Route("SaveAnswer")]
         public async Task<ApiResponse<Result>> SaveAnswerAsync([FromQuery] GetAnswer getAnswer)
+        //public async Task<ApiResponse<Result>> SaveAnswerAsync()
         {
             try
-            {
+            {  
+                //for testing purpose
+                //var getAnswer = new GetAnswer();
+                //getAnswer.UserId = new Guid("40DE4EC5-BD7B-DD89-9CF5-B08884BD4166");
+                //getAnswer.QuestionId = new Guid("256231EF-C539-491B-C983-08DAAAB8FF08");
+                //getAnswer.AnswerId = new Guid("08D155BA-39B1-47A7-98BA-08DAAAB8FF25");
+                //getAnswer.QuestionNumber = 2;
+
                 var apiResponse = new ApiResponse<Result>();
                 var result = new Result();
                 var response = await _answerManager.SaveAnswerAsync(getAnswer);
@@ -41,28 +49,6 @@ namespace Quiz.Api.Controllers
             {
                 throw ex;
             }
-        }
-        [HttpGet, Route("GetResult By Result Id")]
-        public async Task<ApiResponse<Result>> GetResultByIdAsync(GetResult getResult) 
-        {
-            try
-            {
-                var apiResponce = new ApiResponse<Result>();
-                var result = await _answerManager.GetResultAsync(getResult);
-                apiResponce.Message = "Here is the result";
-                apiResponce.Status = HttpStatusCode.OK;
-                apiResponce.Content = result.Content;
-                return apiResponce;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        [HttpGet, Route("Test")]
-        public async Task<ActionResult<string>> Test()
-        {
-            return Ok("Hy test");
         }
     }
 }

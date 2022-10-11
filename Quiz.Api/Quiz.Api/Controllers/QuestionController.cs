@@ -63,10 +63,5 @@ namespace Quiz.Api.Controllers
                 throw ex;
             }
         }
-        [HttpGet, Route("Test")]
-        public async Task<ActionResult<string>> Test()
-        {
-            return Ok("Hy test");
-        }
     }
 }

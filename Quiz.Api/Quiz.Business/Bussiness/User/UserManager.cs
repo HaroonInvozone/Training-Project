@@ -1,8 +1,6 @@
-﻿
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Quiz.Models.DTOs;
-using Quiz.Models.Models;
 using QuizApi;
 using QuizApp.Data.Repository.User;
 using QuizApp.Model.DTOs;
@@ -65,16 +63,18 @@ namespace QuizApp.Business.Bussiness.User
                 {
                     //Create a logic to get role
                     new Claim(ClaimTypes.Email, userDto.Email),
-                    new Claim(ClaimTypes.Role, "User")
+                    new Claim(ClaimTypes.Role, "Admin")
+                    //new Claim(ClaimTypes.Role, "User")
                 };
                 var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                     _configuration.GetSection("AppSettings:Token").Value));
+                //_configuration.GetSection("Jwt:Key").Value));
 
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
                 var token = new JwtSecurityToken(
                     claims: claims,
-                    expires: DateTime.Now.AddSeconds(20),
+                    expires: DateTime.Now.AddMinutes(2),
                     signingCredentials: creds);
 
                 var jwt = new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Quiz.Models.DTOs;
-using Quiz.Models.Models;
 using QuizApi;
 using QuizApp.Model.DTOs;
 using QuizApp.Model.Models;
@@ -36,6 +34,8 @@ namespace QuizApp.Data.Repository.User
                 users.PasswordSalt = passwordSalt;
                 users.Role = userDto.Role;
                 users.Email = userDto.Email;
+                users.Name = userDto.UserName;
+                users.Role = "User";
                 _context.Users.Add(users);
                 _context.SaveChanges();
                 apiResponse.Content = users;
