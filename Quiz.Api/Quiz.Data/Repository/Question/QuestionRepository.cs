@@ -44,6 +44,5 @@ namespace Quiz.Data.Repository.QuestionAnswer
                 throw ex;
             }
         }
-        
     }
 }

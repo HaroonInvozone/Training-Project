@@ -16,7 +16,7 @@ namespace QuizApp.Business.Bussiness.User
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
-        private const string timeOut = "Logout Please";
+        private const string timeOut = "Logout Please...";
         public UserManager(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;

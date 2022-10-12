@@ -28,7 +28,6 @@ namespace Quiz.Data.Repository.Results
                 throw ex;
             }
         }
-
     }
     
 }

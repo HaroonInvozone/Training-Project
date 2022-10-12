@@ -21,7 +21,6 @@ namespace QuizApp.Data.Repository.User
            _context = context;
            _configuration = configuration;
         }
-
         public async Task<ApiResponse<Users>?> CreateUser(UserDto userDto) 
         {
             try
@@ -45,7 +44,6 @@ namespace QuizApp.Data.Repository.User
             {
                 throw ex;
             }
-
         }
         private void CreatePasswordHash(string password, out byte[] passwordhash, out byte[] passwordSalt)
         {
@@ -79,7 +77,6 @@ namespace QuizApp.Data.Repository.User
                 throw ex;
             }
         }
-
         public int SetRefreshToken(RefreshToken refreshToken, UserDto userDto)
         {
             try 
@@ -157,7 +154,6 @@ namespace QuizApp.Data.Repository.User
                 _context.Update(user);
                 result = _context.SaveChanges();
             }
-            
             return result;
         }
     }
