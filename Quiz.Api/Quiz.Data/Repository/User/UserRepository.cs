@@ -80,16 +80,22 @@ namespace QuizApp.Data.Repository.User
             }
         }
 
-        public  void SetRefreshToken(RefreshToken refreshToken, UserDto userDto)
+        public int SetRefreshToken(RefreshToken refreshToken, UserDto userDto)
         {
             try 
             {
+                int result = 0;
                 var user = _context.Users.Where(x => x.Email == userDto.Email).FirstOrDefault();
+                if (user is null) 
+                {
+                    return result;
+                }
                 user.RefreshToken = refreshToken.Token;
                 user.TokenCreated = refreshToken.Created;
                 user.TokenExpires = refreshToken.Expires;
                 _context.Update(user);
-                _context.SaveChanges();
+                result = _context.SaveChanges();
+                return result;
             }
             catch (Exception ex)
             {
@@ -140,6 +146,19 @@ namespace QuizApp.Data.Repository.User
             {
                 throw ex;
             }
+        }
+        public async Task<int> LogoutAsync(string refreshToken)
+        {
+            int result = 0;
+            var user = await _context.Users.Where(x => x.RefreshToken == refreshToken).FirstOrDefaultAsync();
+            if (user.RefreshToken is not null)
+            {
+                user.RefreshToken = string.Empty;
+                _context.Update(user);
+                result = _context.SaveChanges();
+            }
+            
+            return result;
         }
     }
 }

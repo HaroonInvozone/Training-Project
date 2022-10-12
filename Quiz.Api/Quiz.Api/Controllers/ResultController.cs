@@ -22,12 +22,18 @@ namespace Quiz.Api.Controllers
         {
             try
             {
-                var apiResponce = new ApiResponse<Result>();
+                var apiResponse = new ApiResponse<Result>();
+                if ((getResult.UserId == null || getResult.UserId == Guid.Empty) || (getResult.ResultId == null || getResult.ResultId == Guid.Empty))
+                {
+                    apiResponse.Message = "Please fill out all fields";
+                    apiResponse.Status = HttpStatusCode.BadGateway;
+                    return apiResponse;
+                }
                 var result = await _resultManager.GetResultAsync(getResult);
-                apiResponce.Message = "Here is the result";
-                apiResponce.Status = HttpStatusCode.OK;
-                apiResponce.Content = result.Content;
-                return apiResponce;
+                apiResponse.Message = "Here is the result";
+                apiResponse.Status = HttpStatusCode.OK;
+                apiResponse.Content = result.Content;
+                return apiResponse;
             }
             catch (Exception ex)
             {

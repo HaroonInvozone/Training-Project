@@ -43,11 +43,11 @@ namespace QuizApp.Api.Controllers
             {
                 var apiResponse = new ApiResponse<Users>();
 
-                if (user is null) 
+                if (user.UserName is null || user.Email is null || user.Password is null) 
                 {
                     {
                         apiResponse.Message = "Please fill out all fields";
-                        apiResponse.Status = HttpStatusCode.BadRequest;
+                        apiResponse.Status = HttpStatusCode.NotAcceptable;
                     };
                     return Ok(apiResponse);
                 }
@@ -72,24 +72,29 @@ namespace QuizApp.Api.Controllers
         {
             try 
             {
+                var apiResponse = new ApiResponse<AuthResponse>();
+                if (user.UserName is null || user.Password is null) 
+                {
+                    apiResponse.Message = "Please fill out all fields";
+                    apiResponse.Status = HttpStatusCode.BadGateway;
+                }
                 var result = await _usermanager.Login(user);
                 if (result.Content is not null)
                 {
-                    var apiResponse = new ApiResponse<AuthResponse>()
+                    
                     {
-                        Message = "Success",
-                        Content = result.Content,
-                        Status = HttpStatusCode.OK
+                        apiResponse.Message = "Success";
+                        apiResponse.Content = result.Content;
+                        apiResponse.Status = HttpStatusCode.OK;
                     };
                     return Ok(apiResponse);
                 }
                 else
                 {
-                    var apiResponse = new ApiResponse<AuthResponse>()
                     {
-                        Message = "Error",
-                        Content = result.Content,
-                        Status = HttpStatusCode.BadRequest
+                        apiResponse.Message = "Invalid User...";
+                        apiResponse.Content = result.Content;
+                        apiResponse.Status = HttpStatusCode.NotFound;
                     };
                     return BadRequest(apiResponse);
                 }
@@ -135,6 +140,15 @@ namespace QuizApp.Api.Controllers
             {
                 throw ex;
             }
+        }
+        [HttpDelete, Route("Logout")]
+        public async Task<ApiResponse<string>> LogoutAsync(TokenApiModel tokenApiModel)
+        { 
+            var apiResponse = new ApiResponse<string>();
+            var result = await _usermanager.LogoutAsync(tokenApiModel);
+            apiResponse.Message = result.Message;
+            apiResponse.Status = HttpStatusCode.OK;
+            return apiResponse;
         }
     }
 }

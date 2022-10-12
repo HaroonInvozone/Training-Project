@@ -43,7 +43,9 @@ namespace QuizApp.Business.Bussiness.User
                 var authResponse = new AuthResponse();
                 var token = CreateToken(userDto);
                 var refreshtoken = GenerateRefreshToken();
-                _userRepository.SetRefreshToken(refreshtoken, userDto);
+                int result = _userRepository.SetRefreshToken(refreshtoken, userDto);
+                if(result.Equals(0))
+                    return apiResponse; 
                 authResponse.AccessToken = token;
                 authResponse.RefreshToken = refreshtoken.Token;
                 apiResponse.Content = authResponse;
@@ -143,6 +145,21 @@ namespace QuizApp.Business.Bussiness.User
             {
                 throw ex;
             }
+        }
+        public async Task<ApiResponse<string>> LogoutAsync(TokenApiModel tokenApiModel)
+        {
+            var apiResponce = new ApiResponse<string>();
+            int result = await _userRepository.LogoutAsync(tokenApiModel.RefreshToken);
+            if (result.Equals(1))
+            {
+                apiResponce.Message = "Logout Successfully";
+                apiResponce.Status = HttpStatusCode.OK;
+            }
+            else {
+                apiResponce.Message = "Invalid token";
+                apiResponce.Status = HttpStatusCode.NotFound;
+            }
+            return apiResponce;
         }
     }
 }

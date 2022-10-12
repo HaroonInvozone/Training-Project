@@ -24,6 +24,12 @@ namespace Quiz.Api.Controllers
             try
             {
                 var apiResponse = new ApiResponse<Question>();
+                if (question.Title is null || question.Answers is null)
+                {
+                    apiResponse.Message = "Please fill out all fields";
+                    apiResponse.Status = HttpStatusCode.BadGateway;
+                    return apiResponse;
+                }
                 var result = await _questionmanager.SaveQuestionAsync(question);
                 if (result is not null)
                 {
