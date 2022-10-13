@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Quiz.Data.Repository.QuestionAnswer;
-using Quiz.Models.DTOs;
 using Quiz.Models.Models;
 using QuizApp.Model.Models;
-using System.Net;
 
 namespace Quiz.Business.Bussiness.QuestionAnswer
 {
@@ -41,6 +38,32 @@ namespace Quiz.Business.Bussiness.QuestionAnswer
                 var apiResponce = new ApiResponse<List<Question>>();
                 var result = await _qARepository.GetQuestionsAsync();
                 apiResponce.Content = result.Content;
+                return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Question?> GetQuestionByIdAsync(Guid questionId)
+        {
+            try
+            {
+                return await _qARepository.GetQuestionByIdAsync(questionId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+}
+        public async Task<ApiResponse<Question>?> UpdateQuestionAsync(Question question)
+        {
+            try
+            {
+                var apiResponce = new ApiResponse<Question?>();
+                var Question = new Question();
+                Question = await _qARepository.UpdateQuestionAsync(question);
+                apiResponce.Content = question;
                 return apiResponce;
             }
             catch (Exception ex)

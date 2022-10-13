@@ -44,5 +44,33 @@ namespace Quiz.Data.Repository.QuestionAnswer
                 throw ex;
             }
         }
+        public async Task<Question?> GetQuestionByIdAsync(Guid questionId) 
+        {
+            try 
+            {
+                var question = new Question();
+                question = await _context.Questions.Include(x => x.Answers).Where(x => x.Id == questionId).FirstOrDefaultAsync();
+                return question;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Question> UpdateQuestionAsync(Question question)
+        {
+            try
+            {
+                //under development
+                _context.Questions.Update(question);
+                _context.Answers.UpdateRange(question.Answers);
+                await _context.SaveChangesAsync();
+                return question;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

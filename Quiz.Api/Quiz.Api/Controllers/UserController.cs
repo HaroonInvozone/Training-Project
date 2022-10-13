@@ -42,7 +42,6 @@ namespace QuizApp.Api.Controllers
         {
             try
             {
-               
                 var apiResponse = new ApiResponse<Users>();
                 if (userId == null || userId == Guid.Empty)
                 {

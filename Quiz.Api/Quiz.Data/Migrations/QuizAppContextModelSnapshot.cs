@@ -67,7 +67,7 @@ namespace Quiz.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CorrectAnswers")
+                    b.Property<int?>("CorrectAnswer")
                         .HasColumnType("int");
 
                     b.Property<bool?>("CurrentState")
@@ -82,7 +82,7 @@ namespace Quiz.Data.Migrations
                     b.Property<DateTime?>("Test_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TotalQuestions")
+                    b.Property<int?>("TotalQuestion")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("UserId")

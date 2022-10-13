@@ -89,8 +89,8 @@ namespace Quiz.Data.Repository.Answers
                                     .Where(x => x.IsCorrect == false)
                                     .Count();
                 result = await _context.Results.FindAsync(ResultId);
-                result.CorrectAnswers = CorrectAnswers;
-                result.TotalQuestions = TotalAnswers.Count();
+                result.CorrectAnswer = CorrectAnswers;
+                result.TotalQuestion = TotalAnswers.Count();
                 result.EndTime = DateTime.Now;
                 if (CorrectAnswers > WrongAnswers)
                     result.CurrentState = true;
