@@ -11,5 +11,7 @@ namespace QuizApp.Data.Repository.User
         public Task<ApiResponse<Users>> GenerateTokenThroughVerification(string refreshToken);
         public Task<ApiResponse<List<Users>>> GetUsersAsync();
         public Task<int> LogoutAsync(string refreshToken);
+        public Task<ApiResponse<Users>> GetUsersByIdAsync(Guid userId);
+        public Task<int> UpdateUser(UserDto userDto);
     }
 }

@@ -25,11 +25,11 @@ namespace Quiz.Data.Repository.Answers
                 throw ex;
             }
         }
-        public async Task<int> GetAllAnswersNumber() 
+        public async Task<int?> GetAllAnswersNumber() 
         {
             try
             {
-                int numbers = _context.Questions.Max(p => p.Number);
+                int? numbers = _context.Questions.Max(p => p.Number);
                 return numbers;
             }
             catch (Exception ex) 

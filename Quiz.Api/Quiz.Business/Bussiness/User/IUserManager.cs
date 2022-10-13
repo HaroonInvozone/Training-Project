@@ -14,5 +14,7 @@ namespace QuizApp.Business.Bussiness.User
         public Task<ApiResponse<AuthResponse>> GenerateTokenThroughVerification(string refreshToken);
         public Task<ApiResponse<List<Users>>> GetUsersAsync();
         public Task<ApiResponse<string>> LogoutAsync(TokenApiModel tokenApiModel);
+        public Task<ApiResponse<Users>> GetUsersByIdAsync(Guid userId);
+        public Task<int> UpdateUser(UserDto userDto);
     }
 }

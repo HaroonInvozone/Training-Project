@@ -11,7 +11,7 @@ namespace Quiz.Business.Bussiness.Answers
         private readonly IConfiguration _configuration;
         private readonly IAnswerRepository _answerRepository;
         private static Guid ResultId;
-        private static int TotalQuestions;
+        private static int? TotalQuestions;
         public AnswerManager(IConfiguration configuration, IAnswerRepository answerManager)
         {
             _configuration = configuration;

@@ -3,11 +3,18 @@
     public  class Users
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = String.Empty;
-        public string Email { get; set; } = string.Empty;
+        public string? FirstName { get; set; } = string.Empty;
+        public string? lastName { get; set; } = string.Empty;
+        public string? Email { get; set; } = string.Empty;
+        public string? JobTitle { get; set; } = string.Empty;
+        public string? Role { get; set; } = string.Empty;
+        public bool? IsRevoke { get; set; }
+        public bool? IsVerified { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public string? PassId { get; set; }  
+        public DateTime? PassportExpiry { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        public string Role { get; set; } = string.Empty;
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime TokenCreated { get; set; }
         public DateTime TokenExpires { get; set; }

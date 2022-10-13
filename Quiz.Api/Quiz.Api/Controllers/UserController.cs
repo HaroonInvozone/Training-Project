@@ -20,7 +20,8 @@ namespace QuizApp.Api.Controllers
         {
             _usermanager = userManager;
         }
-        [HttpGet, Route("GetAllUsers"), Authorize(Roles = "Admin")]
+        //[HttpGet, Route("GetAllUsers"), Authorize(Roles = "Admin")]
+        [HttpGet, Route("GetAllUsers")]
         public async Task<ApiResponse<List<Users>>> GetUserAsync()
         {
             try {
@@ -36,6 +37,52 @@ namespace QuizApp.Api.Controllers
                 throw ex;
             }
         }
+        [HttpGet, Route("GetUsersById")]
+        public async Task<ActionResult<ApiResponse<Users>>> GetUserByIdAsync(Guid userId) 
+        {
+            try
+            {
+               
+                var apiResponse = new ApiResponse<Users>();
+                if (userId == null || userId == Guid.Empty)
+                {
+                    apiResponse.Message = "Please enter user id";
+                    apiResponse.Status = HttpStatusCode.BadRequest;
+                    return apiResponse;
+                }
+                var result = await _usermanager.GetUsersByIdAsync(userId);
+                if (result.Content is null) 
+                {
+                    apiResponse.Status = HttpStatusCode.NotFound;
+                    apiResponse.Message = "user not found";
+                    return apiResponse;
+                }
+                apiResponse.Message = "User detail";
+                apiResponse.Status = HttpStatusCode.OK;
+                apiResponse.Content = result.Content;
+                return Ok(apiResponse);
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
+        }
+        [HttpPut, Route("UpdateUser")]
+        public async Task<ActionResult<ApiResponse<string>>> UpdateUserAsync(UserDto user)
+        {
+            try 
+            {
+                var apiResponce = new ApiResponse<string>();
+                await _usermanager.UpdateUser(user);
+                apiResponce.Message = "User has been updated";
+                apiResponce.Status = HttpStatusCode.OK;
+                return apiResponce;
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
+        }
         [HttpPost, Route("Register")]
         public async Task<ActionResult<ApiResponse<Users>>> RegisterUser(UserDto user) 
         {
@@ -43,7 +90,7 @@ namespace QuizApp.Api.Controllers
             {
                 var apiResponse = new ApiResponse<Users>();
 
-                if (user.UserName is null || user.Email is null || user.Password is null) 
+                if (user.FirstName is null || user.Email is null || user.Password is null) 
                 {
                     {
                         apiResponse.Message = "Please fill out all fields";
@@ -73,7 +120,7 @@ namespace QuizApp.Api.Controllers
             try 
             {
                 var apiResponse = new ApiResponse<AuthResponse>();
-                if (user.UserName is null || user.Password is null) 
+                if (user.Email is null || user.Password is null) 
                 {
                     apiResponse.Message = "Please fill out all fields";
                     apiResponse.Status = HttpStatusCode.BadGateway;

@@ -118,6 +118,7 @@ namespace QuizApp.Business.Bussiness.User
                 if (userData.Content.TokenExpires > DateTime.Now)
                 {
                     authResponse.AccessToken = CreateToken(userDto);
+                    authResponse.RefreshToken = refreshToken;
                     apiResponcse.Content = authResponse;
                 }
                 else
@@ -146,20 +147,53 @@ namespace QuizApp.Business.Bussiness.User
                 throw ex;
             }
         }
+        public async Task<ApiResponse<Users>> GetUsersByIdAsync(Guid userId) 
+        {
+            try {
+                var apiResponce = new ApiResponse<Users>();
+                var result = await _userRepository.GetUsersByIdAsync(userId);
+                apiResponce.Content = result.Content;
+                return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<int> UpdateUser(UserDto userDto) 
+        {
+            try
+            {
+                return await _userRepository.UpdateUser(userDto);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<ApiResponse<string>> LogoutAsync(TokenApiModel tokenApiModel)
         {
-            var apiResponce = new ApiResponse<string>();
-            int result = await _userRepository.LogoutAsync(tokenApiModel.RefreshToken);
-            if (result.Equals(1))
+            try
             {
-                apiResponce.Message = "Logout Successfully";
-                apiResponce.Status = HttpStatusCode.OK;
+                var apiResponce = new ApiResponse<string>();
+                int result = await _userRepository.LogoutAsync(tokenApiModel.RefreshToken);
+                if (result.Equals(1))
+                {
+                    apiResponce.Message = "Logout Successfully";
+                    apiResponce.Status = HttpStatusCode.OK;
+                }
+                else
+                {
+                    apiResponce.Message = "Invalid token";
+                    apiResponce.Status = HttpStatusCode.NotFound;
+                }
+                return apiResponce;
             }
-            else {
-                apiResponce.Message = "Invalid token";
-                apiResponce.Status = HttpStatusCode.NotFound;
+            catch (Exception ex)
+            {
+                throw ex;
             }
-            return apiResponce;
+
         }
     }
 }

@@ -54,7 +54,6 @@ namespace Quiz.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -102,16 +101,16 @@ namespace Quiz.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AnswerId")
+                    b.Property<Guid?>("AnswerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsCorrect")
+                    b.Property<bool?>("IsCorrect")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("QuestionId")
+                    b.Property<Guid?>("QuestionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ResultId")
+                    b.Property<Guid?>("ResultId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -127,13 +126,29 @@ namespace Quiz.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsRevoke")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JobTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PassId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PassportExpiry")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -148,7 +163,6 @@ namespace Quiz.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TokenCreated")
@@ -156,6 +170,9 @@ namespace Quiz.Data.Migrations
 
                     b.Property<DateTime>("TokenExpires")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("lastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -184,9 +201,7 @@ namespace Quiz.Data.Migrations
                 {
                     b.HasOne("Quiz.Models.Models.Result", "Result")
                         .WithMany("ResultAnswer")
-                        .HasForeignKey("ResultId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ResultId");
 
                     b.Navigation("Result");
                 });

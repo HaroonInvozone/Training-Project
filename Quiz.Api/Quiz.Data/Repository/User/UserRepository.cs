@@ -31,10 +31,12 @@ namespace QuizApp.Data.Repository.User
                 CreatePasswordHash(userDto.Password, out byte[] passwordhash, out byte[] passwordSalt);
                 users.PasswordHash = passwordhash;
                 users.PasswordSalt = passwordSalt;
-                users.Role = userDto.Role;
+                users.JobTitle = userDto.JobTitle;
                 users.Email = userDto.Email;
-                users.Name = userDto.UserName;
+                users.FirstName = userDto.FirstName;
+                users.lastName = userDto.lastName;
                 users.Role = "User";
+                users.CreatedOn = DateTime.Now;
                 _context.Users.Add(users);
                 _context.SaveChanges();
                 apiResponse.Content = users;
@@ -135,9 +137,71 @@ namespace QuizApp.Data.Repository.User
             {
                 var users = new List<Users>();
                 var apiResponce = new ApiResponse<List<Users>>();
-                users = await _context.Users.ToListAsync();
+                users = await _context.Users.Select( x => new Users()
+                {
+                    FirstName = x.FirstName,
+                    lastName = x.lastName,
+                    Email = x.Email,
+                    Role = x.Role,
+                })
+                .ToListAsync();
+
                 apiResponce.Content = users;
                 return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<ApiResponse<Users>> GetUsersByIdAsync(Guid userId)
+        {
+            try
+            {
+                var user = new Users();
+                var apiResponce = new ApiResponse<Users>();
+                user = await _context.Users.Where(x => x.Id == userId).Select(x => new Users()
+                {
+                    FirstName = x.FirstName,
+                    lastName = x.lastName,
+                    Email = x.Email,
+                    Role = x.Role,
+                    JobTitle = x.JobTitle,
+                    IsRevoke = x.IsRevoke,
+                    PassId = x.PassId,
+                    IsVerified = x.IsVerified,
+                    CreatedOn = x.CreatedOn,
+                })
+                .FirstOrDefaultAsync();
+
+                if (user is null) {
+                    return apiResponce;
+                }
+                apiResponce.Content = user;
+                return apiResponce;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<int> UpdateUser(UserDto userDto)
+        {
+            try
+            {
+                var apiResponse = new ApiResponse<Users>();
+                var users = new Users();
+                users = await _context.Users.FindAsync(userDto.Id);
+                users.JobTitle = userDto.JobTitle;
+                users.Email = userDto.Email;
+                users.FirstName = userDto.FirstName;
+                users.lastName = userDto.lastName;
+                users.Role = userDto.Role;
+                users.IsRevoke = userDto.IsRevoke;
+                _context.Users.Update(users);
+                int result = await _context.SaveChangesAsync();
+                return result;
             }
             catch (Exception ex)
             {
