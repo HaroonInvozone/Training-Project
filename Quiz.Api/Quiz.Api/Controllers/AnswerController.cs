@@ -16,8 +16,8 @@ namespace Quiz.Api.Controllers
         {
             _answerManager = answerManager;
         }
-        [HttpGet, Route("SaveAnswer")]
-        public async Task<ApiResponse<Result>> SaveAnswerAsync([FromQuery] GetAnswer getAnswer)
+        [HttpGet, Route("SaveQuestionResult")]
+        public async Task<ApiResponse<Result>> SaveQuestionResultAsync([FromQuery] GetAnswer getAnswer)
         //public async Task<ApiResponse<Result>> SaveAnswerAsync()
         {
             try
