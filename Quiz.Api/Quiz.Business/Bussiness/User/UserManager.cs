@@ -23,7 +23,7 @@ namespace QuizApp.Business.Bussiness.User
             _configuration = configuration;
         }
 
-        public async Task<ApiResponse<Users>> CreateUser(UserDto user)
+        public async Task<Users> CreateUser(UserDto user)
         {
             try 
             {
@@ -160,7 +160,7 @@ namespace QuizApp.Business.Bussiness.User
                 throw ex;
             }
         }
-        public async Task<int> UpdateUser(UserDto userDto) 
+        public async Task<Users> UpdateUser(UserDto userDto) 
         {
             try
             {

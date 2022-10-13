@@ -22,7 +22,7 @@ namespace QuizApp.Api.Controllers
         }
         //[HttpGet, Route("GetAllUsers"), Authorize(Roles = "Admin")]
         [HttpGet, Route("GetAllUsers")]
-        public async Task<ApiResponse<List<Users>>> GetUserAsync()
+        public async Task<ActionResult<ApiResponse<List<Users>>>> GetUserAsync()
         {
             try {
                 var apiResponce = new ApiResponse<List<Users>>();
@@ -48,14 +48,14 @@ namespace QuizApp.Api.Controllers
                 {
                     apiResponse.Message = "Please enter user id";
                     apiResponse.Status = HttpStatusCode.BadRequest;
-                    return apiResponse;
+                    return BadRequest(apiResponse);
                 }
                 var result = await _usermanager.GetUsersByIdAsync(userId);
                 if (result.Content is null) 
                 {
                     apiResponse.Status = HttpStatusCode.NotFound;
                     apiResponse.Message = "user not found";
-                    return apiResponse;
+                    return NotFound(apiResponse);
                 }
                 apiResponse.Message = "User detail";
                 apiResponse.Status = HttpStatusCode.OK;
@@ -68,15 +68,17 @@ namespace QuizApp.Api.Controllers
             }
         }
         [HttpPut, Route("UpdateUser")]
-        public async Task<ActionResult<ApiResponse<string>>> UpdateUserAsync(UserDto user)
+        public async Task<ActionResult<ApiResponse<Users>>> UpdateUserAsync(UserDto user)
         {
             try 
             {
-                var apiResponce = new ApiResponse<string>();
-                await _usermanager.UpdateUser(user);
+                var apiResponce = new ApiResponse<Users>();
+                var User = new Users();
+                User =  await _usermanager.UpdateUser(user);
                 apiResponce.Message = "User has been updated";
                 apiResponce.Status = HttpStatusCode.OK;
-                return apiResponce;
+                apiResponce.Content = User;
+                return Ok(apiResponce) ;
             }
             catch (Exception ex) 
             {
@@ -100,10 +102,11 @@ namespace QuizApp.Api.Controllers
                 }
                 else
                 {
-                    var result = await _usermanager.CreateUser(user);
+                    var User = new Users();
+                    User = await _usermanager.CreateUser(user);
                     {
                         apiResponse.Message = "Success";
-                        apiResponse.Content = result.Content;
+                        apiResponse.Content = User;
                         apiResponse.Status = HttpStatusCode.OK;
                     };
                     return Ok(apiResponse);
@@ -189,13 +192,13 @@ namespace QuizApp.Api.Controllers
             }
         }
         [HttpDelete, Route("Logout")]
-        public async Task<ApiResponse<string>> LogoutAsync(TokenApiModel tokenApiModel)
+        public async Task<ActionResult<ApiResponse<string>>> LogoutAsync(TokenApiModel tokenApiModel)
         { 
             var apiResponse = new ApiResponse<string>();
             var result = await _usermanager.LogoutAsync(tokenApiModel);
             apiResponse.Message = result.Message;
             apiResponse.Status = HttpStatusCode.OK;
-            return apiResponse;
+            return Ok(apiResponse);
         }
     }
 }

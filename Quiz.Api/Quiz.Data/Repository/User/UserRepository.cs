@@ -15,17 +15,15 @@ namespace QuizApp.Data.Repository.User
         private readonly QuizAppContext _context;
         private readonly IConfiguration _configuration;
         public Users user = new Users();
-        //public HttpContext http;
         public UserRepository(QuizAppContext context, IConfiguration configuration)
         {
            _context = context;
            _configuration = configuration;
         }
-        public async Task<ApiResponse<Users>?> CreateUser(UserDto userDto) 
+        public async Task<Users> CreateUser(UserDto userDto) 
         {
             try
             {
-                var apiResponse = new ApiResponse<Users>();
                 var users = new Users();
                 users.Id = GenerateGuid(userDto.Email, userDto.Password);
                 CreatePasswordHash(userDto.Password, out byte[] passwordhash, out byte[] passwordSalt);
@@ -39,8 +37,13 @@ namespace QuizApp.Data.Repository.User
                 users.CreatedOn = DateTime.Now;
                 _context.Users.Add(users);
                 _context.SaveChanges();
-                apiResponse.Content = users;
-                return apiResponse;
+                return new Users
+                {
+                    FirstName = users.FirstName,
+                    lastName = users.lastName,
+                    Email = users.Email,
+                    Role = users.Role,
+                };
             }
             catch (Exception ex)
             {
@@ -186,7 +189,7 @@ namespace QuizApp.Data.Repository.User
                 throw ex;
             }
         }
-        public async Task<int> UpdateUser(UserDto userDto)
+        public async Task<Users> UpdateUser(UserDto userDto)
         {
             try
             {
@@ -200,8 +203,14 @@ namespace QuizApp.Data.Repository.User
                 users.Role = userDto.Role;
                 users.IsRevoke = userDto.IsRevoke;
                 _context.Users.Update(users);
-                int result = await _context.SaveChangesAsync();
-                return result;
+                await _context.SaveChangesAsync();
+                return new Users
+                {
+                    FirstName = users.FirstName,
+                    lastName = users.lastName,
+                    Email = users.Email,
+                    Role = users.Role,
+                };
             }
             catch (Exception ex)
             {

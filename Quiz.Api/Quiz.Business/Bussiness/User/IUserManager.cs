@@ -7,7 +7,7 @@ namespace QuizApp.Business.Bussiness.User
 {
     public interface IUserManager
     {
-        public Task<ApiResponse<Users>> CreateUser(UserDto user);
+        public Task<Users> CreateUser(UserDto user);
         public Task<ApiResponse<AuthResponse>> Login(UserDto user);
         public string CreateToken(UserDto userDto);
         public RefreshToken GenerateRefreshToken();
@@ -15,6 +15,6 @@ namespace QuizApp.Business.Bussiness.User
         public Task<ApiResponse<List<Users>>> GetUsersAsync();
         public Task<ApiResponse<string>> LogoutAsync(TokenApiModel tokenApiModel);
         public Task<ApiResponse<Users>> GetUsersByIdAsync(Guid userId);
-        public Task<int> UpdateUser(UserDto userDto);
+        public Task<Users> UpdateUser(UserDto userDto);
     }
 }
