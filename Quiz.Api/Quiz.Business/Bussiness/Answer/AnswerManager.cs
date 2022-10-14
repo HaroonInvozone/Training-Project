@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Quiz.Data.Repository.Answers;
 using Quiz.Models.DTOs;
 using Quiz.Models.Models;
@@ -41,7 +42,8 @@ namespace Quiz.Business.Bussiness.Answers
                 if (TotalQuestions == getAnswer.QuestionNumber)
                 {
                     var response = await _answerRepository.SaveResult(ResultId);
-                    apiResponce.Content = response.Content;
+                    ResultId = new Guid();
+                    apiResponce.Content = response;
                 }
                 return apiResponce;
             }

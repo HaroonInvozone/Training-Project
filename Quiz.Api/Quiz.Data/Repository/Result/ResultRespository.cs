@@ -28,6 +28,17 @@ namespace Quiz.Data.Repository.Results
                 throw ex;
             }
         }
+        public async Task<Result?> GetResultByIdAsync(Guid resultId) 
+        {
+            try 
+            {
+                return await _context.Results.Include(x => x.ResultAnswer).Where(x => x.Id == resultId).FirstOrDefaultAsync();
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
+        }
     }
     
 }

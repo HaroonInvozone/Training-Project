@@ -10,7 +10,7 @@ namespace Quiz.Data.Repository.Answers
         public Task<Guid> GetResultId(Guid UserId);
         public Task<int?> GetAllAnswersNumber();
         public Task<ApiResponse<Result>> SaveAnswerAsync(ResultAnswer resultAnswer);
-        public Task<ApiResponse<Result>> SaveResult(Guid ResultId);
+        public Task<Result> SaveResult(Guid ResultId);
         
     }
 }

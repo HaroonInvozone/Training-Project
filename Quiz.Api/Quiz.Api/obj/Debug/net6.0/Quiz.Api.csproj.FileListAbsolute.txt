@@ -1,3 +1,9 @@
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.csproj.AssemblyReference.cache
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.AssemblyInfoInputs.cache
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.AssemblyInfo.cs
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.csproj.CoreCompileInputs.cache
+C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\bin\Debug\net6.0\appsettings.json
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\bin\Debug\net6.0\Quiz.Api.exe
@@ -57,13 +63,7 @@ C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\bin\Debug\net6.0\Quiz.Models
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\bin\Debug\net6.0\Quiz.Business.pdb
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\bin\Debug\net6.0\Quiz.Data.pdb
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\bin\Debug\net6.0\Quiz.Models.pdb
-C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.csproj.AssemblyReference.cache
-C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.AssemblyInfoInputs.cache
-C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.AssemblyInfo.cs
-C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.csproj.CoreCompileInputs.cache
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\Quiz.Api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\Haroon ali\Desktop\Quiz3\Quiz.Api\Quiz.Api\obj\Debug\net6.0\scopedcss\bundle\Quiz.Api.styles.css

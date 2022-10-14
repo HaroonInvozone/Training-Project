@@ -69,11 +69,10 @@ namespace Quiz.Data.Repository.Answers
                 throw ex;
             }
         }
-        public async Task<ApiResponse<Result>> SaveResult(Guid ResultId) 
+        public async Task<Result> SaveResult(Guid ResultId) 
         {
             try
             {
-                var apiResponse = new ApiResponse<Result>();
                 var result = new Result();
                 var TotalAnswers = await _context.ResultAnswers
                                     .Where(x => x.ResultId == ResultId)
@@ -98,8 +97,12 @@ namespace Quiz.Data.Repository.Answers
                     result.CurrentState = false;
                 _context.Results.Update(result);
                 await _context.SaveChangesAsync();
-                apiResponse.Content = result;
-                return apiResponse;
+                return new Result 
+                {
+                    CorrectAnswer = result.CorrectAnswer,
+                    TotalQuestion = result.TotalQuestion,
+                    CurrentState = result.CurrentState,
+                };
             }
             catch (Exception ex)
             {
