@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "mSLudwyUJAaFkBcPclBDa2FPMNsp7jBTNrZ3eleP4Ns=",
+  "Source": "InvoPassport.Api",
+  "BasePath": "_content/InvoPassport.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
