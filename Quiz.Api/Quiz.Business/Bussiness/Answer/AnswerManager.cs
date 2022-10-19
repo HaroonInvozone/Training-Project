@@ -13,6 +13,8 @@ namespace Quiz.Business.Bussiness.Answers
         private readonly IAnswerRepository _answerRepository;
         private static Guid ResultId;
         private static int? TotalQuestions;
+        private static int? correct = 0;
+        private static int? wrongAnswers = 0;
         public AnswerManager(IConfiguration configuration, IAnswerRepository answerManager)
         {
             _configuration = configuration;
@@ -34,16 +36,23 @@ namespace Quiz.Business.Bussiness.Answers
                 resultAnswer.AnswerId = getAnswer.AnswerId;
                 resultAnswer.ResultId = ResultId;
                 if (getAnswer.AnswerId.Equals(CorrectId))
-                    resultAnswer.IsCorrect = true;
+                    correct++;
+
                 else
-                    resultAnswer.IsCorrect = false;
-                //pass api response as it is 
+                    wrongAnswers++;
                 var result = await _answerRepository.SaveAnswerAsync(resultAnswer);
                 if (TotalQuestions == getAnswer.QuestionNumber)
                 {
-                    var response = await _answerRepository.SaveResult(ResultId);
+                    var saveResult = new SaveResult();
+                    saveResult.ResultId = ResultId;
+                    saveResult.CorrectAnswers = correct;
+                    saveResult.WrongAnswers = wrongAnswers;
+                    saveResult.UserId = getAnswer.UserId;
+                    var response = await _answerRepository.SaveResult(saveResult);
                     ResultId = new Guid();
-                    apiResponce.Content = response;
+                    TotalQuestions = 0;
+                    correct = 0;
+                    wrongAnswers = 0;
                 }
                 return apiResponce;
             }

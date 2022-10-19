@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper.Execution;
+using Microsoft.EntityFrameworkCore;
 using Quiz.Models.DTOs;
 using Quiz.Models.Models;
 using QuizApp.Model.Models;
 using QuizModels.Models;
+using System;
 
 namespace Quiz.Data.Repository.Answers
 {
@@ -69,30 +71,24 @@ namespace Quiz.Data.Repository.Answers
                 throw ex;
             }
         }
-        public async Task<Result> SaveResult(Guid ResultId) 
+        public async Task<Result> SaveResult(SaveResult saveResult) 
         {
             try
             {
                 var result = new Result();
-                var TotalAnswers = await _context.ResultAnswers
-                                    .Where(x => x.ResultId == ResultId)
-                                    .Select(x => new
-                                    {
-                                        x.IsCorrect,
-                                    })
-                                    .ToListAsync();
-                int CorrectAnswers = TotalAnswers
-                                    .Where(x => x.IsCorrect == true)
-                                    .Count();
-                int WrongAnswers = TotalAnswers
-                                    .Where(x => x.IsCorrect == false)
-                                    .Count();
-                result = await _context.Results.FindAsync(ResultId);
-                result.CorrectAnswer = CorrectAnswers;
-                result.TotalQuestion = TotalAnswers.Count();
+                Random r = new Random();
+                result = await _context.Results.FindAsync(saveResult.ResultId);
+                result.CorrectAnswer = saveResult?.CorrectAnswers; ;
+                result.TotalQuestion = await GetAllAnswersNumber();
                 result.EndTime = DateTime.Now;
-                if (CorrectAnswers > WrongAnswers)
+                if (saveResult?.CorrectAnswers > saveResult?.WrongAnswers) 
+                {
                     result.CurrentState = true;
+                    var user = await _context.Users.FindAsync(saveResult.UserId);
+                    user.PassId = r.Next(1,14);
+                    user.PassportExpiry = DateTime.Now.AddDays(2);
+                    _context.Users.Update(user);
+                }
                 else
                     result.CurrentState = false;
                 _context.Results.Update(result);

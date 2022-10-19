@@ -92,18 +92,18 @@ namespace Quiz.Api.Controllers
                 throw ex;
             }
         }
-        [HttpPut, Route("AddQuestions")]
+        [HttpPut, Route("UpateQuestions")]
         public async Task<ActionResult<ApiResponse<Question>>> UpdateQuestionsAsync(Question question)
         {
             try
             {
                 var apiResponse = new ApiResponse<Question>();
-                if (question.Title is null || question.Answers is null)
-                {
-                    apiResponse.Message = "Please fill out all fields";
-                    apiResponse.Status = HttpStatusCode.BadGateway;
-                    return apiResponse;
-                }
+                //if (question.Title is null || question.Answers is null)
+                //{
+                //    apiResponse.Message = "Please fill out all fields";
+                //    apiResponse.Status = HttpStatusCode.BadGateway;
+                //    return apiResponse;
+                //}
                 var result = await _questionmanager.UpdateQuestionAsync(question);
                 if (result is not null)
                 {

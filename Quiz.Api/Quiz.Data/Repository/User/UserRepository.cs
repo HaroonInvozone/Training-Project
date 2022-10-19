@@ -157,7 +157,6 @@ namespace QuizApp.Data.Repository.User
                 throw ex;
             }
         }
-
         public async Task<ApiResponse<Users>> GetUsersByIdAsync(Guid userId)
         {
             try

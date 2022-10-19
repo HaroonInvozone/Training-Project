@@ -17,7 +17,7 @@ namespace Quiz.Data.Repository.QuestionAnswer
             try
             {
                 var apiresponse = new ApiResponse<Question>();
-                await _context.Questions.AddAsync(question);
+                await _context.Questions.AddAsync(question); 
                 await _context.Answers.AddRangeAsync(question.Answers);
                 await _context.SaveChangesAsync();
                 apiresponse.Content = question;
@@ -63,7 +63,7 @@ namespace Quiz.Data.Repository.QuestionAnswer
             {
                 //under development
                 _context.Questions.Update(question);
-                _context.Answers.UpdateRange(question.Answers);
+                //_context.Answers.UpdateRange(question.Answers);
                 await _context.SaveChangesAsync();
                 return question;
             }

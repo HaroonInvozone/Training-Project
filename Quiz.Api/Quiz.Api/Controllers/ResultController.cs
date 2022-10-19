@@ -10,53 +10,22 @@ namespace Quiz.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ResultController
+    public class ResultController 
     {
         private readonly IResultManager _resultManager;
         public ResultController(IResultManager resultManager)
         {
             _resultManager = resultManager;
         }
-        //[HttpGet, Route("GetResultByUserId"), Authorize(Roles = "Admin")]
-        //[HttpGet, Route("GetResultByUserId")]
-        //public async Task<ApiResponse<Result>> GetResultByUserIdAsync(GetResult getResult)
-        //{
-        //    try
-        //    {
-        //        var apiResponse = new ApiResponse<Result>();
-        //        if ((getResult.UserId == null || getResult.UserId == Guid.Empty) || (getResult.ResultId == null || getResult.ResultId == Guid.Empty))
-        //        {
-        //            apiResponse.Message = "Please fill out all fields";
-        //            apiResponse.Status = HttpStatusCode.BadGateway;
-        //            return apiResponse;
-        //        }
-        //        var result = await _resultManager.GetResultAsync(getResult);
-        //        apiResponse.Message = "Here is the result";
-        //        apiResponse.Status = HttpStatusCode.OK;
-        //        apiResponse.Content = result.Content;
-        //        return apiResponse;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-        [HttpGet, Route("GetResultById")]
-        public async Task<ApiResponse<Result>> GetResultByIdAsync(Guid resultId) 
+        [HttpGet, Route("GetResultsDetailList")]
+        public async Task<ApiResponse<List<Result>>> GetResultsDetailList()
         {
             try
             {
-                var apiResponse = new ApiResponse<Result>();
-                if (resultId  == null || resultId == Guid.Empty)
-                {
-                    apiResponse.Message = "Please fill out all fields";
-                    apiResponse.Status = HttpStatusCode.BadGateway;
-                    return apiResponse;
-                }
-                var result = await _resultManager.GetResultById(resultId);
-                apiResponse.Message = "Here is the result";
+                var apiResponse = new ApiResponse<List<Result>>();
+                apiResponse.Message = "Here is the list";
                 apiResponse.Status = HttpStatusCode.OK;
-                apiResponse.Content = result;
+                apiResponse.Content = await _resultManager.GetCompleteResultAsync();
                 return apiResponse;
             }
             catch (Exception ex)
@@ -64,19 +33,35 @@ namespace Quiz.Api.Controllers
                 throw ex;
             }
         }
-        [HttpGet, Route("GetResultByUserId")]
-        public async Task<ApiResponse<UserResult>> GetResultByUserIdAsync([FromQuery]GetResult getResult)
+        [HttpGet, Route("GetResultsList")]
+        public async Task<ApiResponse<List<Result>>> GetResultsList() 
+        {
+            try
+            {
+                var apiResponse = new ApiResponse<List<Result>>();
+                apiResponse.Message = "Here is the list";
+                apiResponse.Status = HttpStatusCode.OK;
+                apiResponse.Content = await _resultManager.GetAllResult();
+                return apiResponse;
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
+        }
+        [HttpGet, Route("GetResultById")]
+        public async Task<ApiResponse<UserResult>> GetResultByUserIdAsync([FromQuery] Guid resultId)
         {
             try
             {
                 var apiResponse = new ApiResponse<UserResult>();
-                if ((getResult.UserId == null || getResult.UserId == Guid.Empty) || (getResult.ResultId == null || getResult.ResultId == Guid.Empty))
+                if ((resultId == null || resultId == Guid.Empty))
                 {
-                    apiResponse.Message = "Please fill out all fields";
+                    apiResponse.Message = "Please enter Result Id";
                     apiResponse.Status = HttpStatusCode.BadGateway;
                     return apiResponse;
                 }
-                var result = await _resultManager.GetResultAsync(getResult);
+                var result = await _resultManager.GetResultAsync(resultId);
                 apiResponse.Message = "Here is the result";
                 apiResponse.Status = HttpStatusCode.OK;
                 apiResponse.Content = result.Content;
@@ -89,3 +74,5 @@ namespace Quiz.Api.Controllers
         }
     }
 }
+
+

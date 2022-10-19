@@ -104,9 +104,6 @@ namespace Quiz.Data.Migrations
                     b.Property<Guid?>("AnswerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool?>("IsCorrect")
-                        .HasColumnType("bit");
-
                     b.Property<Guid?>("QuestionId")
                         .HasColumnType("uniqueidentifier");
 
@@ -114,6 +111,10 @@ namespace Quiz.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("QuestionId");
 
                     b.HasIndex("ResultId");
 
@@ -199,9 +200,21 @@ namespace Quiz.Data.Migrations
 
             modelBuilder.Entity("Quiz.Models.Models.ResultAnswer", b =>
                 {
+                    b.HasOne("Quiz.Models.Models.Answer", "Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId");
+
+                    b.HasOne("Quiz.Models.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId");
+
                     b.HasOne("Quiz.Models.Models.Result", "Result")
                         .WithMany("ResultAnswer")
                         .HasForeignKey("ResultId");
+
+                    b.Navigation("Answer");
+
+                    b.Navigation("Question");
 
                     b.Navigation("Result");
                 });

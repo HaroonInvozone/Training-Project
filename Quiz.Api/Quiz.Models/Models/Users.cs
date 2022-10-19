@@ -1,4 +1,6 @@
-﻿namespace QuizApp.Model.Models
+﻿using Quiz.Models.Models;
+
+namespace QuizApp.Model.Models
 {
     public  class Users
     {
@@ -11,13 +13,12 @@
         public bool? IsRevoke { get; set; }
         public bool? IsVerified { get; set; }
         public DateTime? CreatedOn { get; set; }
-        public string? PassId { get; set; }  
+        public int? PassId { get; set; }  
         public DateTime? PassportExpiry { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime TokenCreated { get; set; }
         public DateTime TokenExpires { get; set; }
-        
     }
 }

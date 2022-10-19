@@ -6,7 +6,8 @@ namespace Quiz.Business.Bussiness.Results
 {
     public interface IResultManager
     {
-        public Task<ApiResponse<UserResult>> GetResultAsync(GetResult getResult);
-        public Task<Result> GetResultById(Guid resultId);
+        public Task<ApiResponse<UserResult>> GetResultAsync(Guid resultId);
+        public Task<List<Result>> GetAllResult();
+        public Task<List<Result?>> GetCompleteResultAsync();
     }
 }

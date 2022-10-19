@@ -19,74 +19,69 @@ namespace Quiz.Business.Bussiness.Results
             _userRepository = userRepository;   
             _questionRepository = questionRepository;
         }
-        public async Task<ApiResponse<UserResult>> GetResultAsync(GetResult getResult)
+        public async Task<List<Result>> GetAllResult() 
+        {
+            try
+            {
+               return await _resultRespository.GetAllResult();    
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
+        }
+        public async Task<ApiResponse<UserResult>> GetResultAsync(Guid ResultId)
         {
             try
             {
                 var apiResponse = new ApiResponse<UserResult>();
                 var userResult = new UserResult();
-                var QuestionsList = new List<Question?>();
-                var QuestionsList2 = new List<Question?>();
-                var Questions1= new Question();
-                
-                var ansList = new List<Answer?>();
-                var userProfile = await _userRepository.GetUsersByIdAsync(getResult.UserId);
-                var resultuser = await _resultRespository.GetResultByIdAsync(getResult.ResultId);
+                var Questions1 = new UserAttempt();
+                var Questions1List = new List<UserAttempt>();
+                int count = 0;
+
+                //var userProfile = await _userRepository.GetUsersByIdAsync(getResult.UserId);
+                var resultuser = await _resultRespository.GetResultByIdAsync(ResultId);
+                //var x = await _resultRespository.GetResultCompleteByIdAsync(ResultId);
+                var userProfile = resultuser.User;
                 foreach (var answer in resultuser.ResultAnswer)
                 {
                     var question = await _questionRepository.GetQuestionByIdAsync((Guid)answer.QuestionId);
-                    //Questions1.Id = question.Id;
-                    //Questions1.Title = question.Title;
-                    //QuestionsList2.Add(Questions1);
-                    //foreach (var answers in question.Answers)
-                    //{
-                    //    var ANS = new Answer();
-                    //    if (answers.Id == answer.AnswerId)
-                    //    {
-                    //        ANS.IsCorrect = true;
-                    //        ANS.Id = answers.Id;
-                    //        ANS.Option = answers.Option;
-                    //        ANS.Question = answers.Question;
-                    //        ANS.QuestionId = answers.QuestionId;
-                    //    }
-                    //    else
-                    //    {
-                    //        ANS.IsCorrect = false;
-                    //        ANS.Id = answers.Id;
-                    //        ANS.Option = answers.Option;
-                    //        ANS.Question = answers.Question;
-                    //        ANS.QuestionId = answers.QuestionId;
-                    //    }
-                    //    ansList.Add(ANS);
-                    //}
-                    QuestionsList.Add(question);
+                    foreach (var answers in question.Answers)
+                    {
+                        if (answers.Id == answer.AnswerId && answers.IsCorrect is true)
+                        {
+                            Questions1.Title = question.Title;
+                            Questions1.IsCorrect = true;
+                            count++;
+                            break;
+                        }
+                    }
+                    if (count.Equals(0))
+                    {
+                        Questions1.Title = question.Title;
+                        Questions1.IsCorrect = false;
+                    }
+                    count = 0;
+                    Questions1List.Add(Questions1);
                 }
-                //foreach (var answer in resultuser.ResultAnswer)
-                //{
-                //    var question = await _questionRepository.GetQuestionByIdAsync((Guid)answer.QuestionId);
-                //    QuestionsList.Add(question);
-                //}
-                //for (int x = 0; x <= QuestionsList.Count(); x++) 
-                //{
-                //    var filter = QuestionsList.Where(x => x.Id == resultuser.ResultAnswer[0].QuestionId).FirstOrDefault();
-                //    foreach (var a in filter.Answers) 
-                //    {
-                //        if (a.Id == resultuser.ResultAnswer[0].AnswerId)
-                //        {
-                //            a.IsCorrect = true;
-                //        }
-                //        else 
-                //        {
-                //            a.IsCorrect = false;
-                //        }
-                //        ANS.Question= 
-                //    }
-                //    QuestionsList2.Add(filter);
-                //}
-
-                userResult.users = userProfile.Content;
-                userResult.result = resultuser;
-                userResult.questionList = QuestionsList;
+                userResult.users = new Users 
+                {
+                    FirstName = userProfile.FirstName,
+                    lastName = userProfile.lastName,
+                    Email = userProfile.Email,
+                    JobTitle = userProfile.JobTitle
+                };
+                userResult.result = new Result
+                {
+                    Test_Date = resultuser.Test_Date,
+                    StartTime = resultuser.StartTime,
+                    EndTime = resultuser.EndTime,
+                    CorrectAnswer = resultuser.CorrectAnswer,
+                    TotalQuestion = resultuser.CorrectAnswer,
+                    CurrentState = resultuser.CurrentState
+                }; ;
+                userResult.UserAttempt = Questions1List;
                 apiResponse.Content = userResult;
                 return apiResponse;
             }
@@ -95,16 +90,9 @@ namespace Quiz.Business.Bussiness.Results
                 throw ex;
             }
         }
-        public async Task<Result> GetResultById(Guid resultId) 
+        public async Task<List<Result?>> GetCompleteResultAsync() 
         {
-            try
-            {
-                return await _resultRespository.GetResultByIdAsync(resultId);
-            }
-            catch (Exception ex) 
-            {
-                throw ex;
-            }
-        } 
+            return await _resultRespository.GetCompleteResultByIdAsync();
+        }
     }
 }
