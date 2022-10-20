@@ -1,0 +1,114 @@
+This main purpose of this project is to make a Invo Quizz app. Through which a candidate can register itself and attempt a quiz.
+If it passes the test a passpord num is alo  to it.
+
+Here is the apis and their payroll
+
+/api/User/Register
+{
+  "userName": "user3@gamil.com",
+  "email": "user3",
+  "password": "user3"
+}
+
+/api/User/Login
+{
+    "UserName" : "User2",
+  "email": "user3",
+  "password": "User2"
+}
+
+/api/User/RefreshToken
+{
+  "refreshToken": "MpAqiUVvWyWYrD237fAJdILikaFPbhBQNs2v4YzJTZgztdLybOh31969L407YobjkSgOHLIb/2FyQF84mcCCmQ=="
+}
+/api/User/GetAllUsers
+
+/api/User/Logout
+{
+  "refreshToken": "UR06cOBRwR9kZsyJaiHgZpdy0QS6AjoAhT/GjOttRr1rdYGO0q0XpF3cgTmS98lzzE3Mrq6vp/m25ZQSqTs9kA=="
+}
+/api/User/UpdateUser
+{
+  "id": "42E73246-717C-C6F5-E0AA-8228A89706EC",
+  "firstName": "user3",
+  "lastName": "user3",
+  "jobTitle": "user3",
+  "email": "user3@example.com",
+  "role": "user3",
+  "isRevoke": true,
+  "isVerified": true,
+  "passId": "12345",
+  "passportExpiry": "2022-10-13T12:17:41.755Z"
+}
+/api/User/GetUsersById
+{
+    "userId": "{{40DE4EC5-BD7B-DD89-9CF5-B08884BD4166}}"
+}
+/api/Question/AddQuestions
+{
+  "number": 3,
+  "title": "hy i am test",
+  "answers": [
+    {
+      "option": "test1",
+      "isCorrect": false
+    },
+    {
+      "option": "test2",
+      "isCorrect": false
+    },
+    {
+      "option": "test3",
+      "isCorrect": false
+    },
+    {
+      "option": "test4",
+      "isCorrect": false
+    }
+  ]
+}
+/api/Question/GetAllQuestion
+
+/api/Question/GetQuestionById
+{
+    "questionId" : "C349FDC6-39AA-411E-BDF0-08DAAD229976"
+}
+/api/Question/UpateQuestions
+{
+  "id": "6051BBD9-8E14-4781-5097-08DAADC1BF49",
+  "number": 0,
+  "title": "What is laptop?",
+  "answers": [
+    {
+      "id": "87C38629-0CFA-4CDB-BE9D-08DAADC1BF5B",
+      "option": "wood",
+      "isCorrect": false
+    },
+{
+      "id": "40C5261E-CBA3-450C-BE9E-08DAADC1BF5B",
+      "option": "glass",
+      "isCorrect": false
+    },
+{
+      "id": "0235D827-4D34-4DCA-BE9F-08DAADC1BF5B",
+      "option": "machine",
+      "isCorrect": true
+    },
+{
+      "id": "E1AAE6A5-BF55-4979-BEA0-08DAADC1BF5B",
+      "option": "mouse",
+      "isCorrect": false
+    }
+  ]
+}
+
+​/api​/Answer​/SaveQuestionResult
+
+{
+	"questionId":,
+	"answersid":,
+	"userId":,
+	"questionNumber":
+}
+
+/api/Result/GetResultsDetailList
